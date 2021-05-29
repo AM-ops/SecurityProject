@@ -5,24 +5,27 @@ from django.urls import reverse
 from django.conf import settings
 from django.db import models
 from django.contrib.auth import get_user_model
+from Algorithms import algorithms
 
 User = get_user_model()
 
 class VigTextEnc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    plaintext = models.TextField()
-    ciphertext = models.TextField()
+    plaintext = models.TextField(null=False, default='')
+    ciphertext = models.TextField(null=False,default='')
+    key = models.TextField(null=False,default='')
+    description = models.TextField(default='Vigenere Text Encryption')
 
     def save(self, *args, **kwargs):
         self.enc()
         super().save(*args, **kwargs)
 
     def enc(self, *args, **kwargs):
-        pass
+        self.ciphertext = algorithms.Vigenere_TEXT_Encryption(self.plaintext,self.key)
 
     def get_absolute_url(self):
         #return reverse('interest_app:AEtoNP_detail', kwargs={'pk':self.pk})
-        return reverse('home')
+        return reverse('SecApp:VigTextEnc_detail', kwargs={'pk':self.pk})
 
 class VigTextDec(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

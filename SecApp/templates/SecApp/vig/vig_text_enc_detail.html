@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block titleblock %}
+  Result
+{% endblock %}
+
+{% block bodyblock %}
+<div class="container m-3 p-3">
+    <h3>Your Vigenere Text Encryption</h3>
+        <h4>Plain Text</h4>
+            <p>{{ detail.plaintext }}</p>
+
+        <h4>Key</h4>
+            <p>{{ detail.key }}</p>
+
+        <h4>Cipher Text</h4>
+            <p>{{ detail.ciphertext }}</p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block titleblock %}
+  List
+{% endblock %}
+
+{% block bodyblock %}
+<div class="container">
+    <h3>Welcome to your Interest Portfolio!</h3>
+    <div class="container m-3">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in list %}
+          <tr>
+            <td>{{item.description}}</td>
+            <td>{{item.type}}</td>
+            <td><a href="{% url 'SecApp:VigTextEnc_detail' item.pk %}" class="btn btn-primary m-1">View</a><a href="{% url 'home' %}" class="btn btn-danger m-1">Delete</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}

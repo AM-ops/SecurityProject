@@ -6,12 +6,14 @@ from django import forms
 class VigTextEncModelForm(ModelForm):
     class Meta:
         model = VigTextEnc
-        fields = ['plaintext']
+        fields = ['plaintext','key']
         labels = {
         "plaintext": "Text to Encrypt",
+        "key": "Key",
         }
         widgets = {
         'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':15,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letter','rows':15,}),
         }
 
         def __init__(self, *args, **kwargs):

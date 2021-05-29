@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from . import models
 from . import forms
 from .models import VigTextEnc, VigTextDec, VerTextEnc, VerTextDec, TranspoTextEnc, TranspoTextDec
-
+User = get_user_model()
 # Create your views here.
 class VigOverviewPage(TemplateView):
     template_name = 'SecApp/vig/overview.html'
@@ -88,4 +88,30 @@ class TranspoTextDecCreate(LoginRequiredMixin,CreateView):
         self.object.save()
         return super().form_valid(form)
 
+class CryptoListView(LoginRequiredMixin,ListView):
+    template_name = 'SecApp/list.html'
+    context_object_name = 'list'
+
+    def get_queryset(self):
+        queryset = VigTextEnc.objects.all()
+        #username = request.POST.get('username', None)
+        username = User.objects.get(username=self.request.user.username)
+        if username is not None:
+            queryset = queryset.filter(user=username).order_by('description')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(CryptoListView, self).get_context_data(**kwargs)
+        crypto_list = VigTextEnc.objects.all()
+        #username = request.POST.get('username', None)
+        username = User.objects.get(username=self.request.user.username)
+        if username is not None:
+            crypto_list = crypto_list.filter(user=username).order_by('description')
+        context['crypto_list'] = crypto_list
+        return context
+
+class VigTextEncDetailView(LoginRequiredMixin,DetailView):
+    model = models.VigTextEnc
+    context_object_name = 'detail'
+    template_name = 'SecApp/vig/vig_text_enc_detail.html'
 
