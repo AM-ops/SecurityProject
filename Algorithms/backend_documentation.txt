@@ -1,0 +1,68 @@
+File Handling
+fileToByteString()
+This function takes in a file as an argument and reads it contents as binary bytes and converts it to an array of decimal? values which it then returnMessage
+
+byteStringToFile()
+This function takes in an array of decimal values of bytes and writes them to the file provided.
+
+Transposition Ciphers
+Text Functions
+StrToMatrix_TEXT()
+This function takes in a text string and a numerical key. The key is used to stipulate the number of desired columns in the matrix. The function then rearranges the string into the matrix and accordingly returns it. It also pads the last row if required.
+
+Transposition_TEXT_Encryption()
+This function takes in a string and a numerical key and passes them to StrToMatrix_TEXT(). This function then applies a simple transposition cipher by reading the data from the matrix column wise.
+
+Transposition_TEXT_Decryption()
+This function takes in a string and a numberical key. The function then uses various mathematical principles to work out how to read the encrypted text back. It compiles a matrix to accomplish this and then returns a string through the join() function.
+
+File Functions
+StrToMatrix_FILE()
+Works similar to StrToMatrix_TEXT() with the exception of what is used as padding - a whole string instead of a empty one.
+
+Transposition_FILE_Encryption()
+Works similar to Transposition_TEXT_Encryption() with the exception of returning a numerical array instead of a string as well as taking in a byte array in place of a string.
+
+Transposition_FILE_Decryption()
+Works similar to Transposition_TEXT_Decryption() with the exception of returning a numerical array instead of a string and removing the added padding as well as taking in a byte array in place of a string.
+
+Vigenere Cipher
+extendKeyLength()
+This function takes the length of the string given and the key to be used and ensures the key matches the length and if not duplicates it until it does
+
+Text Functions
+Vigenere_TEXT_Encryption()
+This function takes in a string and a key. Instead of making use of a Vigenere Table - this function makes use of the numerical ASCII values of characters and adds them in modulo 26. It then adds the value of 65 to get all character values back to the range of letters and returns these as a string.
+
+Vigenere_TEXT_Decryption()
+Works similar to the encryption but instead subtracts the values.
+
+File Functions
+Vigenere_FILE_Encryption()
+Works as with Vigenere_TEXT_Encryption() but is applied within modulo 256 to encompass all possible characters as well as taking in a byte array in place of a string.
+
+Vigenere_FILE_Decryption()
+Works as with Vigenere_TEXT_Decryption() but is applied within modulo 256 to encompass all possible characters as well as taking in a byte array in place of a string.
+
+These methods produces the same effect of using a Vignere Table consistently.
+
+Vernam Ciphers
+Text Functions
+vernam_Key_Generator()
+This function takes in the length of a message/string and produces a random string of characters (within the capital letter set) to be used in the encryption functions
+
+Vernam_TEXT_Encryption()
+This function takes in a message/string to be encrypted and calls vernam_Key_Generator() to create a unique one-time key. The ascii values of the message and key are added within modulo 26. The function then adds the required value to have the characters to be letter characters again and returns this as a string. Due to the random key generation, the key is stored as part of the resulting encrypted text.
+
+Vernam_TEXT_Decryption()
+This function begins by seperating the key from the encrypted text and then subtracts the values in modulo26, takes these values back to the range of letter characters and returns this as a string.
+
+File functions
+vernam_Key_Generator_FILE()
+This function works similar to vernam_Key_Generator() except it generates an array of numerical values (between 0 and 255) as a key.
+
+Vernam_FILE_Encryption()
+Works like Vernam_TEXT_Encryption() except it takes in a numerical array of byte values and is done within modulo256.
+
+Vernam_FILE_Decryption()
+Works like Vernam_TEXT_Decryption() except it takes in a numerical array of byte values and is done within modulo256.
