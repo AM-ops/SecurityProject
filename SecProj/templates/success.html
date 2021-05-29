@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block titleblock %}
+  Success!
+{% endblock %}
+{% block bodyblock %}
+<div class="jumbotron" style="margin-top: 20px; text-align: center;">
+  <h1>You are now logged in as {{user.username}}!</h1>
+  <h2>Please continue to browse and have fun!</h2>
+</div>
+<div class="card" style="width: 25rem;">
+  <div class="card-header">
+    FAQs
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">For any questions</h5>
+    <p class="card-text">Please see our Contact Us page</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Back home</a>
+  </div>
+</div>
+{% endblock %}
