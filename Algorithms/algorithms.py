@@ -65,8 +65,15 @@ def StrToMatrix_FILE(text,key):
 
     return matrix
 
+def keyCheck(key):
+    if(type(key) == int):
+        return key
+    else:
+        return len(key)
+
 #Text algoritms
 def Transposition_TEXT_Encryption(message, key):
+    key = keyCheck(key)
     matrix = StrToMatrix_TEXT(message, key)
     encryptedMessage = ""
     for j in range(0,key):
@@ -76,6 +83,7 @@ def Transposition_TEXT_Encryption(message, key):
     return encryptedMessage
 
 def Transposition_TEXT_Decryption(encryptedMessage, key):
+    key = keyCheck(key)
     numberColumns = math.ceil(len(encryptedMessage) / key)
     numberRows = key
     numberBlanks = (numberColumns * numberRows) - len(encryptedMessage)
@@ -92,7 +100,7 @@ def Transposition_TEXT_Decryption(encryptedMessage, key):
     return ''.join(decryptedMessage)
 
 def Transposition_FILE_Encryption(message, key):
-
+    key = keyCheck(key)
     f = open("UN-encryptedData.txt", 'wb')
     f.write( bytearray(message))
     f.close()
@@ -111,6 +119,7 @@ def Transposition_FILE_Encryption(message, key):
     return encryptedMessage
 
 def Transposition_FILE_Decryption(message,key):
+    key = keyCheck(key)
     numberRows = math.ceil(len(message) / key)
     numberColumns = key
     numberBlanks = (numberColumns * numberRows) - len(message)
@@ -159,7 +168,6 @@ def extendKeyLength(messageLength,key):
     else:
         for i in range(0,(messageLength - keyLength)):
             newKey.append(key[i % keyLength])
-        print(len(newKey))
         return ("".join(newKey)).upper()
 
 #Text algorithms
@@ -385,3 +393,49 @@ def own_FILE_Decryption(message, key):
         decryptedMessage.append(unMathPart%256)
 
     return decryptedMessage
+
+
+'''
+Example of implementation of file functions/methods:
+
+Encryption:
+plainData = fileToByteString("file/file path Origional")
+cipherData = FILE_Encryption(fileData,key) - key depends on which method
+byteStringToFile(cipherData,"file/file path Encrypted")
+
+Decryption:
+cipherData = fileToByteString("file/file path Encrypted")
+plainData = FILE_Decryption(fileData,key) - key depends on which method
+byteStringToFile(plainData,"file/file path Decrypted")
+'''
+
+'''''''''''''''''''''''''''
+plainText = "The brown fox has eyes seeing an infinite amount of stars"
+cipherText = Transposition_TEXT_Encryption(plainText,"hello")
+print(cipherText)
+decryptedText = Transposition_TEXT_Decryption(cipherText,5)
+print(decryptedText)
+
+
+plainInput = fileToByteString("file.mp3")
+encrypt = Vigenere_FILE_Encryption(plainInput,"appayipyip")
+byteStringToFile(encrypt,"vig_encrypt.mp3")
+cipherInput = fileToByteString("vig_encrypt.mp3")
+decrypt = Vigenere_FILE_Decryption(cipherInput,"appayipyip")
+byteStringToFile(decrypt,"vig_decrypt.mp3")
+
+plainInput = fileToByteString("file.png")
+encrypt = Vernam_FILE_Encryption(plainInput)
+byteStringToFile(encrypt,"ver_encrypt.png")
+cipherInput = fileToByteString("ver_encrypt.png")
+decrypt = Vernam_FILE_Decryption(cipherInput)
+byteStringToFile(decrypt,"ver_decrypt.png")
+
+plainInput = fileToByteString("file.jpg")
+encrypt = own_FILE_Encryption(plainInput,20)
+byteStringToFile(encrypt,"own_encrypt.jpg")
+cipherInput = fileToByteString("own_encrypt.jpg")
+decrypt = own_FILE_Decryption(cipherInput,20)
+byteStringToFile(decrypt,"own_decrypt.jpg")
+
+'''''''''''''''''''''''''''

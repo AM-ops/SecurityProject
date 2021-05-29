@@ -1,12 +1,18 @@
-File Handling
+================
+Documentation
+================
+File Handling Methods
 fileToByteString()
-This function takes in a file as an argument and reads it contents as binary bytes and converts it to an array of decimal? values which it then returnMessage
+This method takes in a file/file path and reads it in binary mode. This data is then converted to a bytes array such that it can be worked on by other functions.
 
 byteStringToFile()
-This function takes in an array of decimal values of bytes and writes them to the file provided.
+This function takes in an bytes array of decimal values  and writes them to the file/file path provided.
 
-Transposition Ciphers
+Transposition Ciphers Methods
 Text Functions
+keyCheck(key)
+This function takes the provided key and checks if it is a integer or string and if a string returns the length of it to use as a key.
+
 StrToMatrix_TEXT()
 This function takes in a text string and a numerical key. The key is used to stipulate the number of desired columns in the matrix. The function then rearranges the string into the matrix and accordingly returns it. It also pads the last row if required.
 
@@ -14,11 +20,11 @@ Transposition_TEXT_Encryption()
 This function takes in a string and a numerical key and passes them to StrToMatrix_TEXT(). This function then applies a simple transposition cipher by reading the data from the matrix column wise.
 
 Transposition_TEXT_Decryption()
-This function takes in a string and a numberical key. The function then uses various mathematical principles to work out how to read the encrypted text back. It compiles a matrix to accomplish this and then returns a string through the join() function.
+This function takes in a string and a numerical key. The function then uses various mathematical principles to work out how to read the encrypted text back; it does this by essentially transposing the matrix again. As such, it compiles a matrix to accomplish this and then returns a string through the .join() function.
 
 File Functions
 StrToMatrix_FILE()
-Works similar to StrToMatrix_TEXT() with the exception of what is used as padding - a whole string instead of a empty one.
+Works similar to StrToMatrix_TEXT() with the exception of what is used as padding - a null byte transformed into an integer value; i.e. ord("\u0000").
 
 Transposition_FILE_Encryption()
 Works similar to Transposition_TEXT_Encryption() with the exception of returning a numerical array instead of a string as well as taking in a byte array in place of a string.
@@ -28,14 +34,14 @@ Works similar to Transposition_TEXT_Decryption() with the exception of returning
 
 Vigenere Cipher
 extendKeyLength()
-This function takes the length of the string given and the key to be used and ensures the key matches the length and if not duplicates it until it does
+This function takes the length of the string given and the key to be used and ensures the key matches the length and if not duplicates it until it does. There is no need for a shortening function due to how the Vigenere Algorithm uses.
 
 Text Functions
 Vigenere_TEXT_Encryption()
-This function takes in a string and a key. Instead of making use of a Vigenere Table - this function makes use of the numerical ASCII values of characters and adds them in modulo 26. It then adds the value of 65 to get all character values back to the range of letters and returns these as a string.
+This function takes in a string and a key. It then converts the plaintext to uppercase letters. Instead of making use of a Vigenere Table - this function makes use of the numerical ASCII values of characters and adds them in modulo 26. It then adds the value of 65, or ord('A') to get all character values back to the range of letters and returns these as a string. It also includes a check to ignore any non-letter based characters as a Vigenere table is only alphabet letters.
 
 Vigenere_TEXT_Decryption()
-Works similar to the encryption but instead subtracts the values.
+Works similar to the encryption but instead subtracts the values before adding 65.
 
 File Functions
 Vigenere_FILE_Encryption()
@@ -44,18 +50,18 @@ Works as with Vigenere_TEXT_Encryption() but is applied within modulo 256 to enc
 Vigenere_FILE_Decryption()
 Works as with Vigenere_TEXT_Decryption() but is applied within modulo 256 to encompass all possible characters as well as taking in a byte array in place of a string.
 
-These methods produces the same effect of using a Vignere Table consistently.
+The method of adding and subtracting numerical ASCII values has been found by us to consistently produce the same results as using a Vigenere table and as such was used as it would decrease look-up and computational time - especially on larger files.
 
 Vernam Ciphers
 Text Functions
 vernam_Key_Generator()
-This function takes in the length of a message/string and produces a random string of characters (within the capital letter set) to be used in the encryption functions
+This function takes in the length of a message/string and produces a random string of characters (within the capital letter set) to be used in the encryption functions.
 
 Vernam_TEXT_Encryption()
 This function takes in a message/string to be encrypted and calls vernam_Key_Generator() to create a unique one-time key. The ascii values of the message and key are added within modulo 26. The function then adds the required value to have the characters to be letter characters again and returns this as a string. Due to the random key generation, the key is stored as part of the resulting encrypted text.
 
 Vernam_TEXT_Decryption()
-This function begins by seperating the key from the encrypted text and then subtracts the values in modulo26, takes these values back to the range of letter characters and returns this as a string.
+This function begins by separating the key from the encrypted text and then subtracts the values in modulo26, takes these values back to the range of letter characters and returns this as a string.
 
 File functions
 vernam_Key_Generator_FILE()
@@ -66,3 +72,43 @@ Works like Vernam_TEXT_Encryption() except it takes in a numerical array of byte
 
 Vernam_FILE_Decryption()
 Works like Vernam_TEXT_Decryption() except it takes in a numerical array of byte values and is done within modulo256.
+
+Our Own algorithm
+Text methods
+own_TEXT_Encryption()
+This function takes in a plaintext string and well as a integer key. The individual characters of the string are subjected to a mathematical caluclation based on the provided key and added to an array. Afterwards, a randomly generated key of the same length is created consisting of values from 0 to 255 to be added to the array as well before being added to the array as well. A string result of these is then returned.
+
+own_TEXT_Decryption()
+This function takes in a ciphertext string and a key. The cipher text is split into the encrypted text and a random key used in its' generation. The encrypted text is convered to numerical ascii values and have the random-key's values subtracted from it before having the inverse of a mathematical calculation based on the value of the key argument. This result is then concatenated and returned.
+
+own_FILE_Encryption()
+Works very similar to own_TEXT_Encryption() except is takes in a byte array in place of a string and the values of the mathematical calculations are done in modulo256 to stay within the 0-255 byte limitations.
+
+own_FILE_Decryption()
+Works very similar to own_TEXT_Decryption() except is takes in a byte array in place of a string and the values of the mathematical calculations are done in modulo256 to stay within the 0-255 byte limitations.
+
+
+===============
+Software/Platforms
+===============
+-Atom IDE
+-CommandPromt Terminal
+-Coding done using python 3
+
+
+============
+sources used
+============
+https://docs.python.org/3/library/math.html
+https://docs.python.org/3/library/random.html
+https://docs.python.org/3/c-api/list.html
+https://docs.python.org/3/tutorial/inputoutput.html
+
+=============
+Reflection
+=============
+It is interesting how common the digital applications of the Vernam and Vigenere ciphers can be as the both make use of ascii decimal values to arrive at a encrypted/decrypted value while only differing on the key used and its' application.
+
+Although python is able to handle .txt and .csv files very well; its file handling capabilities of others is definitely lacking. In the development of this program we found that the file data read from a png,jpg,mp3,etc.. file have no encoding type as with most strings being utf-8. This makes it extremely difficult to work on these contents and as such only mostly numerical algorithms are effective.
+
+While writing the vernam/vigenere ciphers and testing them against a png, it was interesting to see on one occasion the encrypted file was not corrupted as usual although it did display a heavily warped image of the origional. This is interesting as it would suggest for a means of image processing at a very low level using the individual bytes - and as such wouldn't be very easy to implement but definitely interesting.
