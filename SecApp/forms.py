@@ -12,8 +12,8 @@ class VigTextEncModelForm(ModelForm):
         "key": "Key",
         }
         widgets = {
-        'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':15,}),
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letter','rows':15,}),
+        'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letter','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -22,12 +22,14 @@ class VigTextEncModelForm(ModelForm):
 class VigTextDecModelForm(ModelForm):
     class Meta:
         model = VigTextDec
-        fields = ['ciphertext']
+        fields = ['ciphertext','key']
         labels = {
         "ciphertext": "Text to Decrypt",
+        'key':'Key',
         }
         widgets = {
-        'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':15,}),
+        'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letter','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -41,7 +43,8 @@ class VerTextEncModelForm(ModelForm):
         "plaintext": "Text to Encrypt",
         }
         widgets = {
-        'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':15,}),
+        'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letter','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -55,7 +58,7 @@ class VerTextDecModelForm(ModelForm):
         "ciphertext": "Text to Decrypt",
         }
         widgets = {
-        'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':15,}),
+        'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -69,7 +72,7 @@ class TranspoTextEncModelForm(ModelForm):
         "plaintext": "Text to Encrypt",
         }
         widgets = {
-        'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':15,}),
+        'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -83,7 +86,7 @@ class TranspoTextDecModelForm(ModelForm):
         "ciphertext": "Text to Decrypt",
         }
         widgets = {
-        'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':15,}),
+        'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):

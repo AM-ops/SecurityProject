@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^transpo/text/create/enc$',views.TranspoTextEncCreate.as_view(),name='transpo_text_create_enc'),
     url(r'^transpo/text/create/dec$',views.TranspoTextDecCreate.as_view(),name='transpo_text_create_dec'),
     url(r'vig/text/enc/(?P<pk>\d+)/$',views.VigTextEncDetailView.as_view(), name='VigTextEnc_detail'),
+    url(r'vig/text/dec/(?P<pk>\d+)/$',views.VigTextDecDetailView.as_view(), name='VigTextDec_detail'),
 ]

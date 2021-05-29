@@ -115,3 +115,8 @@ class VigTextEncDetailView(LoginRequiredMixin,DetailView):
     context_object_name = 'detail'
     template_name = 'SecApp/vig/vig_text_enc_detail.html'
 
+class VigTextDecDetailView(LoginRequiredMixin,DetailView):
+    model = models.VigTextDec
+    context_object_name = 'detail'
+    template_name = 'SecApp/vig/vig_text_dec_detail.html'
+

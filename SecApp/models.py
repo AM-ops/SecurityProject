@@ -24,24 +24,24 @@ class VigTextEnc(models.Model):
         self.ciphertext = algorithms.Vigenere_TEXT_Encryption(self.plaintext,self.key)
 
     def get_absolute_url(self):
-        #return reverse('interest_app:AEtoNP_detail', kwargs={'pk':self.pk})
         return reverse('SecApp:VigTextEnc_detail', kwargs={'pk':self.pk})
 
 class VigTextDec(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     plaintext = models.TextField()
     ciphertext = models.TextField()
+    key = models.TextField(null=False,default='')
+    description = models.TextField(default='Vigenere Text Decryption')
 
     def save(self, *args, **kwargs):
         self.dec()
         super().save(*args, **kwargs)
 
     def dec(self, *args, **kwargs):
-        pass
+        self.plaintext = algorithms.Vigenere_TEXT_Decryption(self.ciphertext,self.key)
 
     def get_absolute_url(self):
-        #return reverse('interest_app:AEtoNP_detail', kwargs={'pk':self.pk})
-        return reverse('home')
+        return reverse('SecApp:VigTextDec_detail', kwargs={'pk':self.pk})
 
 class VigFileEnc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
