@@ -25,8 +25,15 @@ def byteStringToFile(byteStream,file):
     return
 
 #Transposition
+def keyCheck(key):
+    if(len(str(key))==1):
+        return int(key)
+    else:
+        return len(key)
+
 #String to Matrix function
 def StrToMatrix_TEXT(text,key):
+    key = keyCheck(key)
     matrix = []
     row = []
     count = 0
@@ -65,11 +72,7 @@ def StrToMatrix_FILE(text,key):
 
     return matrix
 
-def keyCheck(key):
-    if(type(key) == int):
-        return key
-    else:
-        return len(key)
+
 
 #Text algoritms
 def Transposition_TEXT_Encryption(message, key):
@@ -240,7 +243,7 @@ def vernam_Key_Generator_FILE(messageLength):
 
 #Text algorithms
 def Vernam_TEXT_Encryption(message):
-    messageStrip = message.replace(" "," ")
+    messageStrip = message.replace(" ","")
     messageStrip = messageStrip.upper()
     messageLength = len(messageStrip)
     key = vernam_Key_Generator(messageLength)
@@ -308,6 +311,7 @@ def Vernam_FILE_Decryption(message):
 
 #Own algorithm
 def own_TEXT_Encryption(message, key):
+    key = keyCheck(key)
     messageLength = len(message)
     numericEncryptedValues = []
     for item in message:
@@ -330,6 +334,7 @@ def own_TEXT_Encryption(message, key):
     return (addedKey+strEncryptedMessage)
 
 def own_TEXT_Decryption(message, key):
+    key = keyCheck(key)
     messageLength = int(len(message)/2)
     encryptedMessage = []
     randomKey = []
@@ -351,6 +356,7 @@ def own_TEXT_Decryption(message, key):
     return ''.join(decryptedMessage)
 
 def own_FILE_Encryption(message, key):
+    key = keyCheck(key)
     messageLength = len(message)
     numericEncryptedValues = []
     for item in message:
@@ -375,6 +381,7 @@ def own_FILE_Encryption(message, key):
     return returnMessage
 
 def own_FILE_Decryption(message, key):
+    key = keyCheck(key)
     messageLength = int(len(message)/2)
     encryptedMessage = []
     randomKey = []
