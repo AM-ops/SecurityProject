@@ -5,7 +5,8 @@
 {% endblock %}
 {% block bodyblock %}
 
-<div class="container m-5 p-3">
+<div class="container">
+  <div class="container m-5 p-3">
   <h1 style="text-align: center;">Text Decryption with Transposition</h1>
 <form method="post" class="form m-5">
   {% csrf_token %}
@@ -15,5 +16,6 @@
       <a class="btn btn-outline-success" href="{% url 'home' %}">Go Back</a>
     </div>
 </form>
+</div>
 </div>
 {% endblock %}

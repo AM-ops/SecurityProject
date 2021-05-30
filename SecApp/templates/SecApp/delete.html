@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block titleblock%}Confirm Delete{% endblock %}
+{% block bodyblock %}
+<div class="container">
+    <div class="container m-5 p-3" style="text-align: center;">
+        <h3>Confirm Delete</h3>
+        <form class="form" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <h4>Would you like to delete {{ object.description }} ?</h4>
+            <input type="submit" name="" value="Yes" class="btn btn-danger">
+            <a href="{% url 'SecApp:list' %}" class="btn btn-outline-dark">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock%}

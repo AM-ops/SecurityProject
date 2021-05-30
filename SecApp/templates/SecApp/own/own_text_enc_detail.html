@@ -7,7 +7,7 @@
 {% block bodyblock %}
 <div class="container">
     <div class="container m-5 p-3">
-        <h3>Your Vigenere Text Encryption</h3>
+    <h3>Your J&amp;A Homebrew Algorithm Text Encryption</h3>
         <h4>Plain Text</h4>
             <p>{{ detail.plaintext }}</p>
 
@@ -17,6 +17,7 @@
         <h4>Cipher Text</h4>
             <p>{{ detail.ciphertext }}</p>
     </div>
+
     <div style="text-align: center;">
         <a class="btn btn-outline-success" href="{% url 'SecApp:list' %}">To Profile</a>
         <a class="btn btn-outline-success" href="{% url 'home' %}">Go Home</a>

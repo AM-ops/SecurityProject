@@ -30,7 +30,7 @@
             <a class="dropdown-item" href="{% url 'SecApp:vig_text_create_enc' %}">Text Encryption</a>
             <a class="dropdown-item" href="{% url 'SecApp:vig_text_create_dec' %}">Text Decryption</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'home' %}">File Encryption</a>
+            <a class="dropdown-item" href="{% url 'SecApp:vig_file_create_enc' %}">File Encryption</a>
             <a class="dropdown-item" href="{% url 'home' %}">File Decryption</a>
           </div>
         </li>
@@ -61,17 +61,18 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">J&amp;A&bull;Homebrew</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{% url 'SecApp:vig_overview' %}">Overview</a>
+            <a class="dropdown-item" href="{% url 'SecApp:own_overview' %}">Overview</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{% url 'SecApp:vig_text_create_enc' %}">Text Encryption</a>
-            <a class="dropdown-item" href="{% url 'SecApp:vig_text_create_dec' %}">Text Decryption</a>
+            <a class="dropdown-item" href="{% url 'SecApp:own_text_create_enc' %}">Text Encryption</a>
+            <a class="dropdown-item" href="{% url 'SecApp:own_text_create_dec' %}">Text Decryption</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'home' %}">File Encryption</a>
             <a class="dropdown-item" href="{% url 'home' %}">File Decryption</a>
           </div>
         </li>
+          <li><a class="nav-item nav-link" href="{% url 'SecApp:list' %}">My Profile</a></li>
           <li><a class="nav-item nav-link" href="{% url 'contact' %}">Contact Us</a></li>
-          <li><a class="nav-item nav-link" href="{% url 'contact' %}">Documentation</a></li>
+          <li><a class="nav-item nav-link" href="{% url 'contact' %}">Docs</a></li>
           <li><a class="nav-item nav-link disabled">Welcome,  {{user.username}}</a></li>
           <li><a class="nav-item nav-link" href="{% url 'accounts:logout' %}">Logout</a></li>
         {% else %}
@@ -86,7 +87,7 @@
     </div>
   </nav>
 
-    <div class="container">
+    <div>
         {% block bodyblock %}{% endblock %}
     </div>
 </body>
