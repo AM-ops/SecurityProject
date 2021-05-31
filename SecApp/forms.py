@@ -72,7 +72,7 @@ class TranspoTextEncModelForm(ModelForm):
         }
         widgets = {
         'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter either an INTEGER value or a STRING based key','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -87,7 +87,7 @@ class TranspoTextDecModelForm(ModelForm):
         }
         widgets = {
         'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter either an INTEGER value or a STRING based key','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -103,7 +103,7 @@ class OwnTextEncModelForm(ModelForm):
         }
         widgets = {
         'plaintext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY an INTEGER value','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -119,7 +119,7 @@ class OwnTextDecModelForm(ModelForm):
         }
         widgets = {
         'ciphertext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter text here','rows':5,}),
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY an INTEGER value','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -195,7 +195,7 @@ class TranspoFileEncModelForm(ModelForm):
         "ext": "Extension",
         }
         widgets = {
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter either an INTEGER value or a STRING based key','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -211,7 +211,7 @@ class TranspoFileDecModelForm(ModelForm):
         "ext": "Extension",
         }
         widgets = {
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter either an INTEGER value or a STRING based key','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -227,7 +227,7 @@ class OwnFileEncModelForm(ModelForm):
         "ext": "Extension",
         }
         widgets = {
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY an INTEGER value','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -243,7 +243,7 @@ class OwnFileDecModelForm(ModelForm):
         "ext": "Extension",
         }
         widgets = {
-        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY an INTEGER value','rows':5,}),
         }
 
         def __init__(self, *args, **kwargs):
