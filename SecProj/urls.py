@@ -19,6 +19,8 @@ from django.views.generic import TemplateView
 from django.conf.urls import url, include
 from django.contrib.auth import urls as u
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +30,7 @@ urlpatterns = [
     url(r'^success/$',views.SuccessPage.as_view(),name='success'),
     url(r'^thanks/$',views.ThanksPage.as_view(),name='thanks'),
     url(r'^contact/$',views.ContactPage.as_view(),name='contact'),
+    url(r'^docs/$',views.DocsPage.as_view(),name='docs'),
     url(r'^SecApp/',include('SecApp.urls',namespace='SecApp')),
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

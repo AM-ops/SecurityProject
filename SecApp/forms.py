@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext_lazy as _
 from django.forms import ModelForm
-from .models import VigTextEnc, VigTextDec, VerTextDec, VerTextEnc, TranspoTextEnc, TranspoTextDec, OwnTextEnc, OwnTextDec, VigFileEnc
+from .models import VigTextEnc, VigTextDec, VerTextDec, VerTextEnc, TranspoTextEnc, TranspoTextDec, OwnTextEnc, OwnTextDec, VigFileEnc, VigFileDec, VerFileEnc, VerFileDec, TranspoFileEnc,TranspoFileDec, OwnFileEnc, OwnFileDec
 from django import forms
 
 class VigTextEncModelForm(ModelForm):
@@ -128,10 +128,119 @@ class OwnTextDecModelForm(ModelForm):
 class VigFileEncModelForm(ModelForm):
     class Meta:
         model = VigFileEnc
-        fields = ['plaintext','key']
+        fields = ['plaintext','ext','key']
         labels = {
         "plaintext": "File to Encrypt",
         "key": "Key",
+        "ext": "Extension",
+        }
+        widgets = {
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+class VigFileDecModelForm(ModelForm):
+    class Meta:
+        model = VigFileDec
+        fields = ['ciphertext','ext','key']
+        labels = {
+        "ciphertext": "File to Decrypt",
+        "key": "Key",
+        "ext": "Extension",
+        }
+        widgets = {
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+class VerFileEncModelForm(ModelForm):
+    class Meta:
+        model = VerFileEnc
+        fields = ['plaintext','ext']
+        labels = {
+        "plaintext": "File to Encrypt",
+        'ext': 'Extension',
+        }
+        widgets = {
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+class VerFileDecModelForm(ModelForm):
+    class Meta:
+        model = VerFileDec
+        fields = ['ciphertext','ext']
+        labels = {
+        "ciphertext": "File to Decrypt",
+        'ext': 'Extension',
+        }
+        widgets = {
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+class TranspoFileEncModelForm(ModelForm):
+    class Meta:
+        model = TranspoFileEnc
+        fields = ['plaintext','ext','key']
+        labels = {
+        "plaintext": "File to Encrypt",
+        "key": "Key",
+        "ext": "Extension",
+        }
+        widgets = {
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+class TranspoFileDecModelForm(ModelForm):
+    class Meta:
+        model = TranspoFileDec
+        fields = ['ciphertext','ext','key']
+        labels = {
+        "ciphertext": "File to Decrypt",
+        "key": "Key",
+        "ext": "Extension",
+        }
+        widgets = {
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+class OwnFileEncModelForm(ModelForm):
+    class Meta:
+        model = OwnFileEnc
+        fields = ['plaintext','ext','key']
+        labels = {
+        "plaintext": "File to Encrypt",
+        "key": "Key",
+        "ext": "Extension",
+        }
+        widgets = {
+        'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+class OwnFileDecModelForm(ModelForm):
+    class Meta:
+        model = OwnFileDec
+        fields = ['ciphertext','ext','key']
+        labels = {
+        "ciphertext": "File to Decrypt",
+        "key": "Key",
+        "ext": "Extension",
         }
         widgets = {
         'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),

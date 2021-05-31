@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block titleblock %}
+  Result
+{% endblock %}
+
+{% block bodyblock %}
+<div class="container">
+    <div class="container m-5 p-3">
+    <h3>Your J&amp;A Homebrew File Decryption</h3>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Description</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Original File</td>
+              <td><a href="{{detail.plaintext.path}}" class="btn btn-primary m-1 btn-sm" target="_blank">Download File</a></td>
+            </tr>
+            
+          </tbody>
+          </table>
+          </div>
+    <div style="text-align: center;">
+        <a class="btn btn-outline-success" href="{% url 'SecApp:list' %}">To Profile</a>
+        <a class="btn btn-outline-success" href="{% url 'home' %}">Go Home</a>
+    </div>
+</div>
+{% endblock %}

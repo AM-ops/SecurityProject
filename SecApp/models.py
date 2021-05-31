@@ -6,11 +6,15 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth import get_user_model
 from Algorithms import algorithms
+import os
+import io
+import base64
+from django.core.files.base import ContentFile, File
 
 User = get_user_model()
 
 class VigTextEnc(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField(null=False, default='')
     ciphertext = models.TextField(null=False,default='')
     key = models.TextField(null=False,default='')
@@ -27,7 +31,7 @@ class VigTextEnc(models.Model):
         return reverse('SecApp:VigTextEnc_detail', kwargs={'pk':self.pk})
 
 class VigTextDec(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField()
     ciphertext = models.TextField()
     key = models.TextField(null=False,default='')
@@ -44,7 +48,7 @@ class VigTextDec(models.Model):
         return reverse('SecApp:VigTextDec_detail', kwargs={'pk':self.pk})
 
 class VerTextEnc(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField(null=False, default='')
     ciphertext = models.TextField(null=False, default='')
     description = models.TextField(default='Vernam Text Encryption')
@@ -60,7 +64,7 @@ class VerTextEnc(models.Model):
         return reverse('SecApp:VerTextEnc_detail', kwargs={'pk':self.pk})
 
 class VerTextDec(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField(null=False, default='')
     ciphertext = models.TextField(null=False, default='')
     description = models.TextField(default='Vernam Text Decryption')
@@ -76,7 +80,7 @@ class VerTextDec(models.Model):
         return reverse('SecApp:VerTextDec_detail', kwargs={'pk':self.pk})
 
 class TranspoTextEnc(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField(null=False, default='')
     ciphertext = models.TextField(null=False, default='')
     key = models.TextField(null=False, default='')
@@ -93,7 +97,7 @@ class TranspoTextEnc(models.Model):
         return reverse('SecApp:TranspoTextEnc_detail', kwargs={'pk':self.pk})
 
 class TranspoTextDec(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField(null=False, default='')
     ciphertext = models.TextField(null=False, default='')
     description = models.TextField(default='Transposition Text Decryption')
@@ -110,7 +114,7 @@ class TranspoTextDec(models.Model):
         return reverse('SecApp:TranspoTextDec_detail', kwargs={'pk':self.pk})
 
 class OwnTextEnc(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField(null=False, default='')
     ciphertext = models.TextField(null=False,default='')
     key = models.TextField(null=False,default='')
@@ -127,7 +131,7 @@ class OwnTextEnc(models.Model):
         return reverse('SecApp:OwnTextEnc_detail', kwargs={'pk':self.pk})
 
 class OwnTextDec(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.TextField()
     ciphertext = models.TextField()
     key = models.TextField(null=False,default='')
@@ -144,21 +148,161 @@ class OwnTextDec(models.Model):
         return reverse('SecApp:OwnTextDec_detail', kwargs={'pk':self.pk})
 
 class VigFileEnc(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    plaintext = models.FileField(upload_to='media', default='')
-    ciphertext = models.FileField(upload_to='media', default='')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
     description = models.TextField(default='Vigenere File Encryption')
-    key = models.TextField(null=False,default='')
+    key = models.TextField(blank=True,default='')
+    ext = models.CharField(max_length=10)
 
     def save(self, *args, **kwargs):
-        self.enc()
         super().save(*args, **kwargs)
+        self.enc()
+        
 
     def enc(self, *args, **kwargs):
-        plainData = algorithms.fileToByteString(self.plaintext)
-        cipherData = algorithms.Vigenere_FILE_Encryption(plainData,self.key)
-        algorithms.byteStringToFile(cipherData,self.ciphertext)
+        pass
+        #plainData = algorithms.fileToByteString(self.plaintext)
+        #cipherData = algorithms.Vigenere_FILE_Encryption(plainData,self.key)
+        #algorithms.byteStringToFile(cipherData,self.ciphertext)
 
     def get_absolute_url(self):
-        #return reverse('interest_app:AEtoNP_detail', kwargs={'pk':self.pk})
+        return reverse('home')
+
+class VigFileDec(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
+    description = models.TextField(default='Vigenere File Decryption')
+    key = models.TextField(blank=True,default='')
+    ext = models.CharField(max_length=10)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.enc()
+        
+
+    def enc(self, *args, **kwargs):
+        pass
+        #plainData = algorithms.fileToByteString(self.plaintext.path)
+        #cipherData = algorithms.Vigenere_FILE_Encryption(plainData,self.key)
+        #algorithms.byteStringToFile(cipherData,self.ciphertext.path)
+
+    def get_absolute_url(self):
+        return reverse('home')
+
+class VerFileEnc(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
+    description = models.TextField(default='Vernam File Encryption')
+    ext = models.CharField(default='', max_length=10)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        #self.ciphertext = self.plaintext
+        self.enc()
+        #super().save(*args, **kwargs)
+
+    def enc(self, *args, **kwargs):
+        pass
+        #THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        #plain_file = os.path.join(THIS_FOLDER, self.plaintext.url)
+        #a = self.plaintext
+        #self.ciphertext = a
+        #pt = str(self.plaintext.path)
+        #ct = str(self.ciphertext.path)
+        #plainData = algorithms.fileToByteString(pt)
+        #cipherData = algorithms.Vernam_FILE_Encryption(plainData)
+        #content = algorithms.byteStringToFile(cipherData,'newfile.{0}'.format(self.ext))
+        #with open(content,'rb') as f:
+        #    self.ciphertext.save('newfile',File(f),save=False)
+        #f.close()
+        #self.save()
+        
+        #self.ciphertext = File(cipherfile)
+        #f = open(cipherfile, 'rb')
+        #self.ciphertext.save('newfile',ContentFile(f))
+        #f.close()
+        #self.ciphertext.save('newfile',ContentFile(cipherData))
+        #file = File(io.BytesIO(content), name='foo.{0}'.format(self.ext))
+        #file_data = ContentFile(base64.urlsafe_b64decode(content))
+        #file_data = ContentFile(base64.b64decode(content))
+        #self.ciphertext.save('newfile.{0}'.format(self.ext), file_data)
+
+    def get_absolute_url(self):
+        return reverse('SecApp:VerFileEnc_detail', kwargs={'pk':self.pk})
+
+class VerFileDec(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
+    description = models.TextField(default='Vernam File Decryption')
+    ext = models.CharField(default='', max_length=10)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        #self.enc()
+
+    def get_absolute_url(self):
+        return reverse('home')
+
+class TranspoFileEnc(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
+    description = models.TextField(default='Transposition File Encryption')
+    ext = models.CharField(default='', max_length=10)
+    key = models.TextField(blank=True,default='')
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        #self.enc()
+
+    def get_absolute_url(self):
+        return reverse('home')
+
+class TranspoFileDec(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
+    description = models.TextField(default='Transposition File Decryption')
+    ext = models.CharField(default='', max_length=10)
+    key = models.TextField(blank=True,default='')
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        #self.enc()
+
+    def get_absolute_url(self):
+        return reverse('home')
+
+class OwnFileEnc(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
+    description = models.TextField(default='J&A Homebrew File Encryption')
+    ext = models.CharField(default='', max_length=10)
+    key = models.TextField(blank=True,default='')
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        #self.enc()
+
+    def get_absolute_url(self):
+        return reverse('home')
+
+class OwnFileDec(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    plaintext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.FileField(upload_to='', blank=True)
+    description = models.TextField(default='J&A Homebrew File Decryption')
+    ext = models.CharField(default='', max_length=10)
+    key = models.TextField(blank=True,default='')
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        #self.enc()
+
+    def get_absolute_url(self):
         return reverse('home')

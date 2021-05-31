@@ -22,7 +22,7 @@ def byteStringToFile(byteStream,file):
     byteStream = bytearray(byteStream)
     f.write(byteStream)
     f.close()
-    return
+    return file
 
 #Transposition
 def keyCheck(key):

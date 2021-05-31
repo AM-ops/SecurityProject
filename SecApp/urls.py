@@ -19,7 +19,14 @@ urlpatterns = [
     url(r'^own/text/create/enc$',views.OwnTextEncCreate.as_view(),name='own_text_create_enc'),
     url(r'^own/text/create/dec$',views.OwnTextDecCreate.as_view(),name='own_text_create_dec'),
     url(r'^vig/file/create/enc$',views.VigFileEncCreate.as_view(),name='vig_file_create_enc'),
-
+    url(r'^vig/file/create/dec$',views.VigFileDecCreate.as_view(),name='vig_file_create_dec'),
+    url(r'^ver/file/create/enc$',views.VerFileEncCreate.as_view(),name='ver_file_create_enc'),
+    url(r'^ver/file/create/dec$',views.VerFileDecCreate.as_view(),name='ver_file_create_dec'),
+    url(r'^transpo/file/create/enc$',views.TranspoFileEncCreate.as_view(),name='transpo_file_create_enc'),
+    url(r'^transpo/file/create/dec$',views.TranspoFileDecCreate.as_view(),name='transpo_file_create_dec'),
+    url(r'^own/file/create/enc$',views.OwnFileEncCreate.as_view(),name='own_file_create_enc'),
+    url(r'^own/file/create/dec$',views.OwnFileDecCreate.as_view(),name='own_file_create_dec'),
+    
     url(r'vig/text/enc/(?P<pk>\d+)/$',views.VigTextEncDetailView.as_view(), name='VigTextEnc_detail'),
     url(r'vig/text/dec/(?P<pk>\d+)/$',views.VigTextDecDetailView.as_view(), name='VigTextDec_detail'),
     url(r'ver/text/enc/(?P<pk>\d+)/$',views.VerTextEncDetailView.as_view(), name='VerTextEnc_detail'),
@@ -29,6 +36,15 @@ urlpatterns = [
     url(r'own/text/enc/(?P<pk>\d+)/$',views.OwnTextEncDetailView.as_view(), name='OwnTextEnc_detail'),
     url(r'own/text/dec/(?P<pk>\d+)/$',views.OwnTextDecDetailView.as_view(), name='OwnTextDec_detail'),
 
+    url(r'vig/file/enc/(?P<pk>\d+)/$',views.VigFileEncDetailView.as_view(), name='VigFileEnc_detail'),
+    url(r'vig/file/dec/(?P<pk>\d+)/$',views.VigFileDecDetailView.as_view(), name='VigFileDec_detail'),
+    url(r'ver/file/enc/(?P<pk>\d+)/$',views.VerFileEncDetailView.as_view(), name='VerFileEnc_detail'),
+    url(r'ver/file/dec/(?P<pk>\d+)/$',views.VerFileDecDetailView.as_view(), name='VerFileDec_detail'),
+    url(r'transpo/file/enc/(?P<pk>\d+)/$',views.TranspoFileEncDetailView.as_view(), name='TranspoFileEnc_detail'),
+    url(r'transpo/file/dec/(?P<pk>\d+)/$',views.TranspoFileDecDetailView.as_view(), name='TranspoFileDec_detail'),
+    url(r'own/file/enc/(?P<pk>\d+)/$',views.OwnFileEncDetailView.as_view(), name='OwnFileEnc_detail'),
+    url(r'own/file/dec/(?P<pk>\d+)/$',views.OwnFileDecDetailView.as_view(), name='OwnFileDec_detail'),
+
     url(r'vig/text/delete/enc/(?P<pk>\d+)/$',views.VigTextEncDeleteView.as_view(), name='VigTextEnc_delete'),
     url(r'vig/text/delete/dec/(?P<pk>\d+)/$',views.VigTextDecDeleteView.as_view(), name='VigTextDec_delete'),
     url(r'ver/text/delete/enc/(?P<pk>\d+)/$',views.VerTextEncDeleteView.as_view(), name='VerTextEnc_delete'),
@@ -37,5 +53,13 @@ urlpatterns = [
     url(r'transpo/text/delete/dec/(?P<pk>\d+)/$',views.TranspoTextDecDeleteView.as_view(), name='TranspoTextDec_delete'),
     url(r'own/text/delete/enc/(?P<pk>\d+)/$',views.OwnTextEncDeleteView.as_view(), name='OwnTextEnc_delete'),
     url(r'own/text/delete/dec/(?P<pk>\d+)/$',views.OwnTextDecDeleteView.as_view(), name='OwnTextDec_delete'),
+    url(r'vig/file/delete/enc/(?P<pk>\d+)/$',views.VigFileEncDeleteView.as_view(), name='VigFileEnc_delete'),
+    url(r'vig/file/delete/dec/(?P<pk>\d+)/$',views.VigFileDecDeleteView.as_view(), name='VigFileDec_delete'),
+    url(r'ver/file/delete/enc/(?P<pk>\d+)/$',views.VerFileEncDeleteView.as_view(), name='VerFileEnc_delete'),
+    url(r'ver/file/delete/dec/(?P<pk>\d+)/$',views.VerFileDecDeleteView.as_view(), name='VerFileDec_delete'),
+    url(r'transpo/file/delete/enc/(?P<pk>\d+)/$',views.TranspoFileEncDeleteView.as_view(), name='TranspoFileEnc_delete'),
+    url(r'transpo/file/delete/dec/(?P<pk>\d+)/$',views.TranspoFileDecDeleteView.as_view(), name='TranspoFileDec_delete'),
+    url(r'own/file/delete/enc/(?P<pk>\d+)/$',views.OwnFileEncDeleteView.as_view(), name='OwnFileEnc_delete'),
+    url(r'own/file/delete/dec/(?P<pk>\d+)/$',views.OwnFileDecDeleteView.as_view(), name='OwnFileDec_delete'),
 
 ]
