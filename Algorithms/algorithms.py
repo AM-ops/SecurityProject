@@ -27,14 +27,17 @@ def byteStringToFile(byteStream,file):
 
 #Transposition
 def keyCheck(key):
-    if(len(str(key))==1):
+    check = True
+    for item in key:
+        if(not(ord(item) >= 48 and ord(item) <= 57)):
+            check = False
+    if(check):
         return int(key)
     else:
         return len(key)
 
 #String to Matrix function
 def StrToMatrix_TEXT(text,key):
-    key = keyCheck(key)
     matrix = []
     row = []
     count = 0
@@ -68,12 +71,9 @@ def StrToMatrix_FILE(text,key):
             count = 0
         elif(length == 0):
             while(len(row)<key):
-                row.append(ord("\u0000"))
+                row.append(item)
             matrix.append(row)
-
     return matrix
-
-
 
 #Text algoritms
 def Transposition_TEXT_Encryption(message, key):
@@ -100,51 +100,65 @@ def Transposition_TEXT_Decryption(encryptedMessage, key):
         if (col == numberColumns) or (col == numberColumns - 1 and row >= numberRows - numberBlanks):
             col = 0
             row += 1
-
     return ''.join(decryptedMessage)
 
 def Transposition_FILE_Encryption(message, key):
     key = keyCheck(key)
-    f = open("UN-encryptedData.txt", 'wb')
-    f.write( bytearray(message))
-    f.close()
-
     matrix = StrToMatrix_FILE(message, key)
     encryptedMessage = []
     for j in range(0,key):
         for item in matrix:
             strList = item.pop(0)
             encryptedMessage.append(strList)
+    return encryptedMessage, len(message)
 
-    f = open("encryptedData.txt", 'wb')
-    f.write( bytearray(encryptedMessage))
-    f.close()
-
-    return encryptedMessage
-
-def Transposition_FILE_Decryption(message,key):
+def Transposition_FILE_Decryption(message,origLength,key):
     key = keyCheck(key)
-    numberRows = math.ceil(len(message) / key)
-    numberColumns = key
-    numberBlanks = (numberColumns * numberRows) - len(message)
-    decryptedMessage = ['']*numberColumns
+    numberColumns = math.ceil(len(message) / key)
+    numberRows = key
+    numberBlanks = (numberColumns * numberRows) - origLength
+    decryptedMessage = [[]]*numberColumns
     col,row = 0,0
 
     for item in message:
-        decryptedMessage[col] += str(item)
+        decryptedMessage[col].append(item)
         col += 1
         if (col == numberColumns) or (col == numberColumns - 1 and row >= numberRows - numberBlanks):
             col = 0
             row += 1
 
-    return ''.join(decryptedMessage)
+
+    returnMessage = []
+    for item in decryptedMessage:
+        for i in range(0,len(item)):
+            strList = item.pop(0)
+            returnMessage.append(strList)
+    print("==>>",numberBlanks)
+    for i in range(0,numberBlanks):
+        a=returnMessage.pop(len(returnMessage)-1)
+        print(a)
+    return returnMessage
 
 '''
-input = fileToByteString("file.mp3")
-encrypt = Transposition_FILE_Encryption(input,20)
+plainText = "The brown fox has eyes seeing an infinite amount of stars"
+cipherText = Transposition_TEXT_Encryption(plainText,"5")
+print(cipherText)
+decryptedText = Transposition_TEXT_Decryption(cipherText,"hello")
+print(decryptedText)
 
-for i in range(0,x):
-    print(input[i*20],"and",encrypt[i])
+plainInput = fileToByteString("file.jpg")
+encrypt,origLen = Transposition_FILE_Encryption(plainInput,"1000")
+byteStringToFile(encrypt,"encrypt.jpg")
+cipherInput = fileToByteString("encrypt.jpg")
+decrypt = Transposition_FILE_Decryption(cipherInput,origLen,"1000")
+byteStringToFile(decrypt,"decrypt.jpg")
+
+print(len(plainInput))
+print(len(encrypt))
+print(len(decrypt))
+
+for i in range(0,50):
+    print(plainInput[i*9],"and",encrypt[i],"and",decrypt[i])
 '''
 #Vignere
 #Set Up Vigenere Table
