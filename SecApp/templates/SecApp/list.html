@@ -9,99 +9,11 @@
     <h2>Welcome to your History!</h2>
   </div>
 
-  <div class="container m-3">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Description</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:VigTextEnc_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:VigTextEnc_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in VigTextDec_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:VigTextDec_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:VigTextDec_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in VerTextEnc_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:VerTextEnc_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:VerTextEnc_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in VerTextDec_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:VerTextDec_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:VerTextDec_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in TranspoTextEnc_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:TranspoTextEnc_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:TranspoTextEnc_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in TranspoTextDec_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:TranspoTextDec_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:TranspoTextDec_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in OwnTextEnc_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:OwnTextEnc_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:OwnTextEnc_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in OwnTextDec_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:OwnTextDec_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:OwnTextDec_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-        {% for item in VerFileEnc_list %}
-        <tr>
-          <td>{{item.pk}}</td>
-          <td>{{item.description}}</td>
-          <td><a href="{% url 'SecApp:VerFileEnc_detail' item.pk %}" class="btn btn-primary m-1">View</a>
-              <a href="{% url 'SecApp:VerFileEnc_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
-        </tr>
-        {% endfor %}
-
-      </tbody>
-    </table>
+  <div class="jumbotron m-5 p-3" style="text-align: center; color: red;">
+    <h3>Did you really think we would store your History of Encryption?</h3>
+    <h4>That is not good security protocol!!</h4>
   </div>
+
+  
 </div>
 {% endblock %}

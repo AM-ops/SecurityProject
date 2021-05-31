@@ -150,7 +150,7 @@ class OwnTextDec(models.Model):
 class VigFileEnc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.FileField(upload_to='', blank=True)
-    ciphertext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.TextField(default='')
     description = models.TextField(default='Vigenere File Encryption')
     key = models.TextField(blank=True,default='')
     ext = models.CharField(max_length=10)
@@ -158,20 +158,22 @@ class VigFileEnc(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.enc()
-        
+        super().save(*args, **kwargs)
 
     def enc(self, *args, **kwargs):
-        pass
-        #plainData = algorithms.fileToByteString(self.plaintext)
-        #cipherData = algorithms.Vigenere_FILE_Encryption(plainData,self.key)
-        #algorithms.byteStringToFile(cipherData,self.ciphertext)
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.plaintext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.Vigenere_FILE_Encryption(plainData,self.key)
+        self.ciphertext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_vig_enc.{0}'.format(self.ext)))
 
     def get_absolute_url(self):
-        return reverse('home')
+        return reverse('SecApp:VigFileEnc_detail', kwargs={'pk':self.pk})
 
 class VigFileDec(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    plaintext = models.FileField(upload_to='', blank=True)
+    plaintext = models.TextField(default='')
     ciphertext = models.FileField(upload_to='', blank=True)
     description = models.TextField(default='Vigenere File Decryption')
     key = models.TextField(blank=True,default='')
@@ -179,17 +181,19 @@ class VigFileDec(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.enc()
-        
+        self.dec()
+        super().save(*args, **kwargs)
 
-    def enc(self, *args, **kwargs):
-        pass
-        #plainData = algorithms.fileToByteString(self.plaintext.path)
-        #cipherData = algorithms.Vigenere_FILE_Encryption(plainData,self.key)
-        #algorithms.byteStringToFile(cipherData,self.ciphertext.path)
+    def dec(self, *args, **kwargs):
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.ciphertext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.Vigenere_FILE_Decryption(plainData,self.key)
+        self.plaintext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_vig_dec.{0}'.format(self.ext)))
 
     def get_absolute_url(self):
-        return reverse('home')
+        return reverse('SecApp:VigFileDec_detail', kwargs={'pk':self.pk})
 
 class VerFileEnc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -200,7 +204,6 @@ class VerFileEnc(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        #self.ciphertext = self.plaintext
         self.enc()
         super().save(*args, **kwargs)
 
@@ -211,34 +214,13 @@ class VerFileEnc(models.Model):
         plainData = algorithms.fileToByteString(pt)
         cipherData = algorithms.Vernam_FILE_Encryption(plainData)
         self.ciphertext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_vernam_enc.{0}'.format(self.ext)))
-        #self.user = User.objects.get(username=self.request.user.username)
-        
-        #algorithms.byteStringToFile(cipherData,'newfile.{0}'.format(self.ext))
-        #ct = str(self.ciphertext.path)
-        #a = self.plaintext
-        #self.ciphertext = a
-        #self.ciphertext.save(name='newfile.{0}'.format(self.ext),content=ContentFile(b))
-        #with open(b,'rb') as f:
-        #self.ciphertext.save('newfile.{0}'.format(self.ext),ContentFile(b),save=False)
-        #f.close()
-        #self.save()
-        
-        #self.ciphertext = File(cipherfile)
-        #f = open(cipherfile, 'rb')
-        #self.ciphertext.save('newfile',ContentFile(f))
-        #f.close()
-        #self.ciphertext.save('newfile',ContentFile(cipherData))
-        #file = File(io.BytesIO(content), name='foo.{0}'.format(self.ext))
-        #file_data = ContentFile(base64.urlsafe_b64decode(content))
-        #file_data = ContentFile(base64.b64decode(content))
-        #self.ciphertext.save('newfile.{0}'.format(self.ext), file_data)
 
     def get_absolute_url(self):
         return reverse('SecApp:VerFileEnc_detail', kwargs={'pk':self.pk})
 
 class VerFileDec(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    plaintext = models.FileField(upload_to='', blank=True)
+    plaintext = models.TextField(default='')
     ciphertext = models.FileField(upload_to='', blank=True)
     description = models.TextField(default='Vernam File Decryption')
     ext = models.CharField(default='', max_length=10)
@@ -246,29 +228,46 @@ class VerFileDec(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.dec()
+        super().save(*args, **kwargs)
 
-    def dec(self, *args, **kwargs)
+    def dec(self, *args, **kwargs):
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.ciphertext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.Vernam_FILE_Decryption(plainData)
+        self.plaintext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_vernam_dec.{0}'.format(self.ext)))
+
     def get_absolute_url(self):
-        return reverse('home')
+        return reverse('SecApp:VerFileDec_detail', kwargs={'pk':self.pk})
 
 class TranspoFileEnc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.FileField(upload_to='', blank=True)
-    ciphertext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.TextField(default='')
     description = models.TextField(default='Transposition File Encryption')
     ext = models.CharField(default='', max_length=10)
     key = models.TextField(blank=True,default='')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        #self.enc()
+        self.enc()
+        super().save(*args, **kwargs)
+
+    def enc(self, *args,**kwargs):
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.plaintext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.Transposition_FILE_Encryption(plainData,self.key)
+        self.ciphertext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_transpo_enc.{0}'.format(self.ext)))
 
     def get_absolute_url(self):
-        return reverse('home')
+        return reverse('SecApp:TranspoFileEnc_detail', kwargs={'pk':self.pk})
 
 class TranspoFileDec(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    plaintext = models.FileField(upload_to='', blank=True)
+    plaintext = models.TextField(default='')
     ciphertext = models.FileField(upload_to='', blank=True)
     description = models.TextField(default='Transposition File Decryption')
     ext = models.CharField(default='', max_length=10)
@@ -276,29 +275,47 @@ class TranspoFileDec(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        #self.enc()
+        self.dec()
+        super().save(*args, **kwargs)
+
+    def dec(self, *args,**kwargs):
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.ciphertext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.Transposition_FILE_Decryption(plainData,self.key)
+        self.plaintext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_transpo_dec.{0}'.format(self.ext)))
 
     def get_absolute_url(self):
-        return reverse('home')
+        return reverse('SecApp:TranspoFileDec_detail', kwargs={'pk':self.pk})
 
 class OwnFileEnc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.FileField(upload_to='', blank=True)
-    ciphertext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.TextField(default='')
     description = models.TextField(default='J&A Homebrew File Encryption')
     ext = models.CharField(default='', max_length=10)
     key = models.TextField(blank=True,default='')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        #self.enc()
+        self.enc()
+        super().save(*args, **kwargs)
+
+    def enc(self, *args,**kwargs):
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.plaintext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.own_FILE_Encryption(plainData,self.key)
+        self.ciphertext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_own_enc.{0}'.format(self.ext)))
 
     def get_absolute_url(self):
-        return reverse('home')
+        return reverse('SecApp:OwnFileEnc_detail', kwargs={'pk':self.pk})
 
 class OwnFileDec(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    plaintext = models.FileField(upload_to='', blank=True)
+    plaintext = models.TextField(default='')
     ciphertext = models.FileField(upload_to='', blank=True)
     description = models.TextField(default='J&A Homebrew File Decryption')
     ext = models.CharField(default='', max_length=10)
@@ -306,7 +323,16 @@ class OwnFileDec(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        #self.enc()
+        self.dec()
+        super().save(*args, **kwargs)
+
+    def dec(self, *args,**kwargs):
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.ciphertext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.own_FILE_Decryption(plainData,self.key)
+        self.plaintext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_own_dec.{0}'.format(self.ext)))
 
     def get_absolute_url(self):
-        return reverse('home')
+        return reverse('SecApp:OwnFileDec_detail', kwargs={'pk':self.pk})

@@ -8,14 +8,14 @@
 <div class="container">
   <div class="container m-5 p-3">
   <h1 style="text-align: center;">File Decryption with Vernam</h1>
-<form method="post" class="form m-5">
-  {% csrf_token %}
+  <form method="post" class="form m-5" enctype="multipart/form-data">
+    {% csrf_token %}
     {{ form | crispy}}
     <div style="text-align: center;">
-      <input type="submit" value="Decrypt" class="btn btn-success">
-      <a class="btn btn-outline-success" href="{% url 'home' %}">Go Back</a>
+    <input type="submit" value="Decrypt" class="btn btn-success">
+    <a class="btn btn-outline-success" href="{% url 'home' %}">Go Back</a>
     </div>
-</form>
+  </form>
 </div>
 </div>
 {% endblock %}

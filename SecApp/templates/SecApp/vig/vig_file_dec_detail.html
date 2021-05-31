@@ -7,14 +7,18 @@
 {% block bodyblock %}
 <div class="container">
     <div class="container m-5 p-3">
-    <h3>Your Vigenere Text Decryption</h3>
-        <h4>Your Plain Text</h4>
-            <p>{{ detail.plaintext }}</p>
+    <h3>Your Vigen&egrave;re File Decryption</h3>
+    <div>
+      <h4>Original File Location</h4>
+      <p>{{detail.ciphertext.path}}</p>
     </div>
-
+  
+    <div>
+    <h4>Decrypted File Location</h4>
+    <p>{{detail.plaintext}}</p>
+    </div>
     <div style="text-align: center;">
         <a class="btn btn-outline-success" href="{% url 'home' %}">Go Home</a>
     </div>
-
 </div>
 {% endblock %}
