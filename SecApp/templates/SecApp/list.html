@@ -6,7 +6,7 @@
 {% block bodyblock %}
 <div class="container">
   <div class="container m-5 p-3" style="text-align: center;">
-    <h2>Welcome to your Profile!</h2>
+    <h2>Welcome to your History!</h2>
   </div>
 
   <div class="container m-3">
@@ -88,6 +88,15 @@
           <td>{{item.description}}</td>
           <td><a href="{% url 'SecApp:OwnTextDec_detail' item.pk %}" class="btn btn-primary m-1">View</a>
               <a href="{% url 'SecApp:OwnTextDec_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
+        </tr>
+        {% endfor %}
+
+        {% for item in VerFileEnc_list %}
+        <tr>
+          <td>{{item.pk}}</td>
+          <td>{{item.description}}</td>
+          <td><a href="{% url 'SecApp:VerFileEnc_detail' item.pk %}" class="btn btn-primary m-1">View</a>
+              <a href="{% url 'SecApp:VerFileEnc_delete' item.pk %}" class="btn btn-danger m-1">Delete</a></td>
         </tr>
         {% endfor %}
 

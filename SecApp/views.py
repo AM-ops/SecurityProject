@@ -214,7 +214,7 @@ class CryptoListView(LoginRequiredMixin,ListView):
 
         context['VigFileEnc_list'] = VigFileEnc_list
         context['VigFileDec_list'] = VigFileDec_list
-        context['VervEnc_list'] = VerFileEnc_list
+        context['VerFileEnc_list'] = VerFileEnc_list
         context['VerFileDec_list'] = VerFileDec_list
         context['TranspoFileEnc_list'] = TranspoFileEnc_list
         context['TranspoFileDec_list'] = TranspoFileDec_list

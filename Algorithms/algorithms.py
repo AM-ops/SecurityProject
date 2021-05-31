@@ -18,11 +18,12 @@ def fileToByteString(file):
     return byteStream
 
 def byteStringToFile(byteStream,file):
+    pathStr = str(file)
     f = open(file, 'wb')
     byteStream = bytearray(byteStream)
     f.write(byteStream)
     f.close()
-    return file
+    return pathStr
 
 #Transposition
 def keyCheck(key):

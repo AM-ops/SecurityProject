@@ -194,7 +194,7 @@ class VigFileDec(models.Model):
 class VerFileEnc(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     plaintext = models.FileField(upload_to='', blank=True)
-    ciphertext = models.FileField(upload_to='', blank=True)
+    ciphertext = models.TextField(default='')
     description = models.TextField(default='Vernam File Encryption')
     ext = models.CharField(default='', max_length=10)
 
@@ -202,21 +202,24 @@ class VerFileEnc(models.Model):
         super().save(*args, **kwargs)
         #self.ciphertext = self.plaintext
         self.enc()
-        #super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def enc(self, *args, **kwargs):
-        pass
-        #THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
-        #plain_file = os.path.join(THIS_FOLDER, self.plaintext.url)
+        THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
+        new_path = os.path.join(THIS_FOLDER, 'media')
+        pt = str(self.plaintext.path)
+        plainData = algorithms.fileToByteString(pt)
+        cipherData = algorithms.Vernam_FILE_Encryption(plainData)
+        self.ciphertext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_vernam_enc.{0}'.format(self.ext)))
+        #self.user = User.objects.get(username=self.request.user.username)
+        
+        #algorithms.byteStringToFile(cipherData,'newfile.{0}'.format(self.ext))
+        #ct = str(self.ciphertext.path)
         #a = self.plaintext
         #self.ciphertext = a
-        #pt = str(self.plaintext.path)
-        #ct = str(self.ciphertext.path)
-        #plainData = algorithms.fileToByteString(pt)
-        #cipherData = algorithms.Vernam_FILE_Encryption(plainData)
-        #content = algorithms.byteStringToFile(cipherData,'newfile.{0}'.format(self.ext))
-        #with open(content,'rb') as f:
-        #    self.ciphertext.save('newfile',File(f),save=False)
+        #self.ciphertext.save(name='newfile.{0}'.format(self.ext),content=ContentFile(b))
+        #with open(b,'rb') as f:
+        #self.ciphertext.save('newfile.{0}'.format(self.ext),ContentFile(b),save=False)
         #f.close()
         #self.save()
         
@@ -242,8 +245,9 @@ class VerFileDec(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        #self.enc()
+        self.dec()
 
+    def dec(self, *args, **kwargs)
     def get_absolute_url(self):
         return reverse('home')
 
