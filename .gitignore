@@ -20,4 +20,8 @@ db.sqlite3
 /docs/*.xml
 /docs/main-blx.bib
 /docs/*.synctex.gz
+<<<<<<< Updated upstream
+=======
+/docs/_minted-docs
+>>>>>>> Stashed changes
 /*/__pycache__
