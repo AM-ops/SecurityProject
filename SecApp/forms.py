@@ -136,6 +136,7 @@ class VigFileEncModelForm(ModelForm):
         }
         widgets = {
         'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -152,6 +153,7 @@ class VigFileDecModelForm(ModelForm):
         }
         widgets = {
         'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY Alphabet Letters','rows':5,}),
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -166,6 +168,7 @@ class VerFileEncModelForm(ModelForm):
         'ext': 'Extension',
         }
         widgets = {
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -180,6 +183,7 @@ class VerFileDecModelForm(ModelForm):
         'ext': 'Extension',
         }
         widgets = {
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -196,6 +200,7 @@ class TranspoFileEncModelForm(ModelForm):
         }
         widgets = {
         'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter either an INTEGER value or a STRING based key','rows':5,}),
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -212,6 +217,7 @@ class TranspoFileDecModelForm(ModelForm):
         }
         widgets = {
         'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter either an INTEGER value or a STRING based key','rows':5,}),
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -228,6 +234,7 @@ class OwnFileEncModelForm(ModelForm):
         }
         widgets = {
         'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY an INTEGER value','rows':5,}),
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
@@ -244,6 +251,7 @@ class OwnFileDecModelForm(ModelForm):
         }
         widgets = {
         'key': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Enter ONLY an INTEGER value','rows':5,}),
+        'ext': forms.Textarea(attrs={'class':'form-control', 'placeholder':'This should be the few letters after the last fullstop in the file name','rows':1,}),
         }
 
         def __init__(self, *args, **kwargs):
