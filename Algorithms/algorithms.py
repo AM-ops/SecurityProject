@@ -106,60 +106,60 @@ def Transposition_FILE_Encryption(message, key):
     key = keyCheck(key)
     matrix = StrToMatrix_FILE(message, key)
     encryptedMessage = []
+    origLength = str(len(message))
+    lenLen = len(origLength)
+    encryptedMessage.append(lenLen)
+    for i in range(0,lenLen):
+        encryptedMessage.append(ord(origLength[i]))
+
+
     for j in range(0,key):
         for item in matrix:
             strList = item.pop(0)
             encryptedMessage.append(strList)
-    return encryptedMessage, len(message)
+    return encryptedMessage
 
-def Transposition_FILE_Decryption(message,origLength,key):
+def Transposition_FILE_Decryption(message,key):
     key = keyCheck(key)
+
+    lenLen = message.pop(0)
+    origLengthARR = []
+    for i in range(0,lenLen):
+        strList = message.pop(0)
+        origLengthARR.append(str(chr(strList)))
+    origLengthSTR = ''.join(origLengthARR)
+    origLength = int(origLengthSTR)
+
     numberColumns = math.ceil(len(message) / key)
     numberRows = key
     numberBlanks = (numberColumns * numberRows) - origLength
-    decryptedMessage = [[]]*numberColumns
-    col,row = 0,0
+    matrix = StrToMatrix_FILE(message, numberColumns)
+    decryptedMessageARR = []
 
-    for item in message:
-        decryptedMessage[col].append(item)
-        col += 1
-        if (col == numberColumns) or (col == numberColumns - 1 and row >= numberRows - numberBlanks):
-            col = 0
-            row += 1
-
-
-    returnMessage = []
-    for item in decryptedMessage:
-        for i in range(0,len(item)):
+    for j in range(0,numberColumns):
+        for item in matrix:
             strList = item.pop(0)
-            returnMessage.append(strList)
-    print("==>>",numberBlanks)
+            decryptedMessageARR.append(strList)
+
     for i in range(0,numberBlanks):
-        a=returnMessage.pop(len(returnMessage)-1)
-        print(a)
+        decryptedMessageARR.pop(-1)
+
+    returnMessage =[]
+    for item in decryptedMessageARR:
+        returnMessage.append(int(item))
+
+    returnMessage = bytearray(returnMessage)
+
     return returnMessage
-
 '''
-plainText = "The brown fox has eyes seeing an infinite amount of stars"
-cipherText = Transposition_TEXT_Encryption(plainText,"5")
-print(cipherText)
-decryptedText = Transposition_TEXT_Decryption(cipherText,"hello")
-print(decryptedText)
-
 plainInput = fileToByteString("file.jpg")
-encrypt,origLen = Transposition_FILE_Encryption(plainInput,"1000")
-byteStringToFile(encrypt,"encrypt.jpg")
-cipherInput = fileToByteString("encrypt.jpg")
-decrypt = Transposition_FILE_Decryption(cipherInput,origLen,"1000")
-byteStringToFile(decrypt,"decrypt.jpg")
-
-print(len(plainInput))
-print(len(encrypt))
-print(len(decrypt))
-
-for i in range(0,50):
-    print(plainInput[i*9],"and",encrypt[i],"and",decrypt[i])
+encrypt = Transposition_FILE_Encryption(plainInput,"100")
+byteStringToFile(encrypt,"tran_encrypt.jpg")
+cipherInput = fileToByteString("tran_encrypt.jpg")
+decrypt = Transposition_FILE_Decryption(cipherInput,"100")
+byteStringToFile(decrypt,"tran_decrypt.jpg")
 '''
+
 #Vignere
 #Set Up Vigenere Table
 '''
