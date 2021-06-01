@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block titleblock %}
   Thanks!
 {% endblock %}
@@ -6,7 +7,7 @@
 <div class="container">
   <div class="container m-5 p-3" style="text-align: center;">
     <h2>Our Documentation</h2>
-    
+    <iframe src="{% static 'docs.pdf' %}" width="100%" height="750px"></iframe>
   </div>
 </div>
 {% endblock %}
