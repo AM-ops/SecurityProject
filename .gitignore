@@ -21,6 +21,10 @@ db.sqlite3
 /docs/main-blx.bib
 /docs/*.synctex.gz
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+/docs/_minted-docs
+>>>>>>> Stashed changes
 =======
 /docs/_minted-docs
 >>>>>>> Stashed changes
