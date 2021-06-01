@@ -1,0 +1,260 @@
+\documentclass[a4paper, 12pt, titlepage]{report}
+\usepackage{minted}
+\usepackage[dvipsnames]{xcolor}
+\colorlet{LightApricot}{Orchid!20}
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{float}
+\usepackage{hyperref}
+%\usepackage{longtable}
+%\usepackage{amsmath}
+%\usepackage[normalem]{ulem}
+\usepackage{booktabs}
+%\usepackage{array}
+%\usepackage{tikz}
+%\usepackage{parskip}
+%\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
+\renewcommand{\chaptername}{Section}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=RoyalBlue,
+    pdfpagemode=FullScreen,
+}
+\begin{document}
+\linespread{1.25}
+\author{Affaan Muhammad - 33016763\\Joshua Esterhuizen - 30285976}
+\title{ITRI615 - Computer Security\\Project Documentation}
+\date{}
+\maketitle
+\tableofcontents{}
+
+\chapter{Installation and setup}
+\section{Project files}
+The project files can be found on the following GitHub link:\\
+\url{https://github.com/AM-ops/SecurityProject}
+\\\\This was our main code repository. We both have been updating the code as we went along and added details and bug fixes to the project.\\\\
+To copy the code to your own machine, follow the following steps:
+\begin{enumerate}
+\item Make sure Git is installed. If not it can be downloaded from here:\\
+\url{https://git-scm.com/}
+\item Create an empty directory where the code can be copied to
+\item Run the following command:
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+linenos,
+]
+{Shell}
+git clone https://github.com/AM-ops/SecurityProject.git
+\end{minted}
+\end{enumerate}
+\section{Virtual Environment}
+There are multiple advantages of using virtual environments when creating software. The primary reason being we create a layer of separation and abstraction between our host machine's files and our software project.\\\\
+We made use of a Python virtual environment which was handled by Anaconda. This can be downloaded from the following link:\\
+\url{https://www.anaconda.com/products/individual}
+\subsection{Creating a virtual environment}
+Once Anaconda was installed the following commands were run in the terminal to create a virtual environment called \texttt{myDjangoEnv}.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda create --name myDjangoEnv
+\end{minted}
+Depending on the version of Anaconda installed you might have to use a leading underscore on Windows machines. The same will apply for commands further down. Below is a demonstration.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+_conda create --name myDjangoEnv
+\end{minted}
+\subsection{Listing virtual environments}
+To list all virtual environments on your host machine run the following command.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda info --envs
+\end{minted}
+or
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda env list
+\end{minted}
+\subsection{Deleting a virtual environment}
+To delete a virtual environment run the following commands.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda remove --name <name_of_virtual_environment> --all
+\end{minted}
+or
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda env remove --name <name_of_virtual_environment>
+\end{minted}
+\subsection{Activating and deactivating virtual environments}
+To activate an environment run the following commands for Windows.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda activate <name_of_virtual_environment>
+\end{minted}
+For Linux and MacOS the command is as follows.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+source activate <name_of_virtual_environment>
+\end{minted}
+Once the environment is activated your terminal should change. By default, the active environment, is shown in parentheses () or brackets [] at the beginning of your command prompt as shown below.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+(<name_of_virtual_environment>) >_
+\end{minted}
+Depending on your version of Anaconda to deactivate your environment the commands for Windows is.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+deactivate
+\end{minted}
+or
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda deactivate
+\end{minted}
+For Linux and MacOS the command will be
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+source deactivate
+\end{minted}
+\subsection{Listing Packages installed}
+To list all the packages you have installed in an environment there are two methods of listing them.
+First, if the environment is not activated run the following.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda list -n <name_of_virtual_environment>
+\end{minted}
+Secondly, if the environment is activated, then simply run the following.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda list
+\end{minted}
+\subsection{Using pip}
+Due to the fact that Python is being used for the project it is always necessary to make sure \texttt{pip} is installed and functioning. If it is not then run the following commands.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+conda install -n <name_of_virtual_environment> pip
+\end{minted}
+\section{Frameworks and other packages}
+\subsection{Django}
+The primary framework used for development in this project was \texttt{Django}. This is a python based Web framework. The documentation for the it can be found here:\\
+\url{https://docs.djangoproject.com/en/3.2/}
+\subsection{Bootstrap}
+
+\chapter{Sources}
+\url{https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html}\\
+\url{https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/}\\
+\url{https://docs.djangoproject.com/en/3.2/}
+\end{document}
