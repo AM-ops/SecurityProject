@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block headblock %}
+<link href="{% static 'blackboard.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block titleblock %}
   Overview
 {% endblock %}
@@ -49,26 +55,28 @@
                 Adding 65 and 19 we get 84 (As 65 is the value of 'A' so that we arrive back at the ASCII values of capital letters)<br />
                 We can then see that the value we get from these calculations, is the same as the ASCII value of 'T' => and with the chr() we can take this number and return the letter 'T'.
             </p>
-            <img src="https://pages.mtu.edu/~shene/NSF-4/Tutorial/VIG/FIG-VIG-Table-EX-M.jpg" alt="Vigen&egrave;re Table" width="600" height="400">
-
+            <!-- <img src="https://pages.mtu.edu/~shene/NSF-4/Tutorial/VIG/FIG-VIG-Table-EX-M.jpg" alt="Vigen&egrave;re Table" width="600" height="400"> -->
+            <img src="{% static 'vig.jpg' %}" alt="Vigen&egrave;re Table" width="600" height="400">
+        </div>
             <div class="container m-5 p-3" style="text-align: left;">
                 <h4> Our Vigen&egrave;re Table Legacy code: </h4>
-                <p>
-                    VignereTable = []*26<br />
-                    alphabet  = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']<br />
-                    addRow = []<br />
-
-                    for i in range(0,26):
-                </p>
-                <p style="text-indent: 40px">for j in range(0,26):</p>
-                <p style="text-indent: 80px"> k = i+j</p>
-                <p style="text-indent: 80px">if k >= 26:</p>
-                <p style="text-indent: 120px">k -= 26</p>
-                <p style="text-indent: 80px">addRow.append(alphabet[k])</p>
-                <p style="text-indent: 40px">VignereTable.append(addRow)</p>
-                <p style="text-indent: 40px">addRow = []</p><br />
-
-
+                
+<pre>
+<code data-language="python">
+VignereTable = []*26
+alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+addRow = []
+for i in range(0,26):
+    for j in range(0,26):
+        k = i+j
+        if k >= 26:
+            k -= 26
+        addRow.append(alphabet[k])
+VignereTable.append(addRow)
+addRow = []
+</code>
+</pre>
+            </div>
                 <div class="container m-5 p-3" style="text-align: left;">
                     <h4> Aknowledgement: </h4>
                     <p>
@@ -77,11 +85,10 @@
                             professor in the Department of Computer Science at Michigan Technological University
                         </i> (circa. 2014) available at https://pages.mtu.edu/~shene/NSF-4/Tutorial/VIG/Vig-Base.html
                     </p>
-
-
                 </div>
             </div>
         </div>
-    </div>
+    
 </div>
+<script src="{% static 'rainbow-custom.min.js' %}"></script>
     {% endblock %}
