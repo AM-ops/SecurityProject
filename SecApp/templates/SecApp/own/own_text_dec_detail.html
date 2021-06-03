@@ -6,18 +6,13 @@
 
 {% block bodyblock %}
 <div class="container">
-    <div class="container m-5 p-3">
-    <h3>Your J&amp;A Homebrew Algorithm Text Decryption</h3>
-        <h4>Cipher Text</h4>
-            <p>{{ detail.ciphertext }}</p>
-
-        <h4>Plain Text</h4>
+    <div class="container m-3 p-3" style="text-align: center;">
+        <h3>Your J&amp;A Homebrew Algorithm Text Decryption</h3>
+        <div class="container m-3 p-3" style="text-align: center;">
+            <h4>Plain Text</h4>
             <p>{{ detail.plaintext }}</p>
+            <a class="btn btn-outline-success" href="{% url 'home' %}">Go Home</a>
     </div>
-
-    <div style="text-align: center;">
-        <a class="btn btn-outline-success" href="{% url 'SecApp:list' %}">To Profile</a>
-        <a class="btn btn-outline-success" href="{% url 'home' %}">Go Home</a>
     </div>
 </div>
 {% endblock %}
