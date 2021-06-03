@@ -16,7 +16,7 @@
                 - a randomly generated key for use as the One-Time Pad.<br /><br />
 <p>
                 <h4>The Algorithm Itself: </h4>
-            <p>Our implementation of the Vernam cipher is pracically the same as i is described. We generate a random key to use only once per encryption, add it numerically to the plaintext or file contents as integers (which represent the bytes) and then decrypt it by subtracting that key again.
+            <p>Our implementation of the Vernam cipher is practically the same as it is described. We generate a random key to use only once per encryption, add it numerically to the plaintext or file contents as integers (which represent the bytes) and then decrypt it by subtracting that key again.
             The text "mode" works as it should, ading the numerical values of the letters' position in the alphabet with those of the random key. 
             However, due to the restrictions placed upon working with file contents while using Python (being unamble to change the data type from ineger representaions of bytes) 
             we simply add the random key as with the text (the exception being that the file's is generaed differently as described below) instead of using the XOR function some digital implementations make use of.
