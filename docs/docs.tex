@@ -380,6 +380,69 @@ Your directory should now look like the following:
 .3 views.py.
 }
 \subsection{Settings and Admin}
+The following changes were added to the \texttt{settings.py} file. The whole file is not shown below.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+linenos,
+breaklines,
+]
+{Python}
+from pathlib import Path
+import os
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.staticfiles',
+    'bootstrap4',
+    'SecProj',
+    'SecApp',
+    'accounts',
+    'crispy_forms',
+]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+ROOT_URLCONF = 'SecProj.urls'
+TEMPLATES = [{'DIRS': [TEMPLATE_DIR]}]
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+STATIC_URL = '/static/'
+STATICFILES_DIR = [os.path.join(BASE_DIR,'static')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+LOGIN_REDIRECT_URL = 'success'
+LOGOUT_REDIRECT_URL = 'thanks'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+\end{minted}
+To create a superuser to handle \texttt{Django} administration run the following commands and follow the prompts:
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+python manage.py createsuperuser
+\end{minted}
+The link for \texttt{Django} admininstration for the project is: \url{http://127.0.0.1:8000/admin}
+\section{Models}
+\section{Views}
+\section{Templates}
 \chapter{User manual}
 \chapter{Reflection}
 \chapter{Sources}
