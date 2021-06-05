@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block headblock %}
-<link href="{% static 'blackboard.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'paraiso-dark.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block titleblock %}
@@ -16,9 +16,9 @@
     </div>
 
     <div class="container">
-    <p>This cipher was first described by Giovan Bellaso in 1553 but later misattributed 
-    to Blaise de Vigen&egrave;re, hence its name. This cipher works by making use of a series of 
-    interwoven Caesar ciphers - which when joined create a Vigen&egrave;re Table - based on the 
+    <p>This cipher was first described by Giovan Bellaso in 1553 but later misattributed
+    to Blaise de Vigen&egrave;re, hence its name. This cipher works by making use of a series of
+    interwoven Caesar ciphers - which when joined create a Vigen&egrave;re Table - based on the
     letters of a given keyword. As such, it is a polyalphabetic substitution cipher. It was
     still "indecipherable" almost three centuries after its' development.
     </p>
@@ -36,7 +36,7 @@
                 <h4>The Algorithm Itself: </h4>
             <p>
                 Our Vigen&egrave;re algorithm implementation works using calculations involving the ASCII values of the letters, and byte characters in a file's case, to apply the same effect of a
-                Vigen&egrave;re Table. The encryption adds these values within modulo26 for text (also adding 65 as discussed below) and modulo256 for files while the decryption subtracts these values. 
+                Vigen&egrave;re Table. The encryption adds these values within modulo26 for text (also adding 65 as discussed below) and modulo256 for files while the decryption subtracts these values.
                 When it comes to the text "mode" of this algorithm, we have included a check to ensure that all characters that have the cipher applied are indeed letters. This is done by: <br/>
                 -Before th algortithm takes place, we apply the ".upper()" to the text string to keep all chracters as capital letters,<br />
                 -Setting an if statement that riggers if the ASCII value of a character is not within the capital letter values, <br/>
@@ -49,7 +49,7 @@
             <h4>The Key Extender: </h4>
             <p>
                 As with the "normal" and our implementation of the Vigen&egrave;re cipher algorithm, the user provided key mmust be repeated across the length of the message.
-                This function does nothing if the key provided is the same length as the message. However, if the key is shorter, it it incrementally added onto itself 
+                This function does nothing if the key provided is the same length as the message. However, if the key is shorter, it it incrementally added onto itself
                 character-by-character until the right length is met. <br/>
                 In the event that the message is shorter than the key, this function returns the origional key. Due to the way the encryption and decryption
                 algortithms function, this will not matter as the loops within them are tied to message length and not key lenght.<br/><br />
@@ -72,7 +72,7 @@
         </div>
             <div class="container m-5 p-3" style="text-align: left;">
                 <h4> Our Vigen&egrave;re Table Legacy code: </h4>
-                
+
 <pre>
 <code data-language="python">
 VignereTable = []*26
@@ -100,7 +100,7 @@ addRow = []
                 </div>
             </div>
         </div>
-    
+
 </div>
 <script src="{% static 'rainbow-custom.min.js' %}"></script>
     {% endblock %}

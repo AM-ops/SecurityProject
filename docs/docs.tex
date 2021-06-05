@@ -22,7 +22,6 @@
     linkcolor=blue,
     filecolor=magenta,      
     urlcolor=RoyalBlue,
-    pdfpagemode=FullScreen,
 }
 \begin{document}
 \linespread{1.25}
@@ -50,7 +49,6 @@ framesep=2mm,
 baselinestretch=1.2,
 bgcolor=LightApricot,
 fontsize=\footnotesize,
-linenos,
 ]
 {Shell}
 git clone https://github.com/AM-ops/SecurityProject.git
@@ -249,19 +247,33 @@ conda install -n <name_of_virtual_environment> pip
 \end{minted}
 \section{Frameworks and other packages}
 \subsection{Django}
-The primary framework used for development in this project was \texttt{Django}. This is a python based Web framework. The documentation for the it can be found here:\\
+The primary framework used for development in this project was \texttt{Django}. This is a python based Web framework. The documentation for it can be found here:\\
 \url{https://docs.djangoproject.com/en/3.2/}
 \subsection{Bootstrap}
+Bootstrap is Cascading Style Sheets (CSS) Framework which allows for simple, elegant, and responsive Graphical User Interfaces to be developed for the Web. The documentation for it can be found here:\\
+\url{https://getbootstrap.com/docs/5.0/getting-started/introduction/}\\\\
+For a more seamless integration of Bootstrap with the \texttt{Django} Framework an additional package called \texttt{django-crispy-forms} was also installed. Its documentation ca be found here:\\
+\url{https://django-crispy-forms.readthedocs.io/en/latest/}
+\subsection{Miscellaneous}
+For typesetting of this documentation, \LaTeX was utilised. Additionally, a \LaTeX package called \texttt{minted} was used to typeset code in this documentation. Its homepage is located at:\\
+\url{https://www.ctan.org/pkg/minted}\\\\
+Lastly, to typeset code within the HTML pages of our project the JavaScript library called \texttt{Rainbow} was implemented. The GitHub link for that is located at:\\
+\url{https://github.com/ccampbell/rainbow}
 \chapter{Programming of artefact}
 \section{Development Tools}
 \subsection{Operating Systems}
-Linux\\
-Windows 10
+The primary systems on which development was done was Linux and Windows 10. The same systems where utilised for testing and bug fixing purposes.
 \subsection{IDEs}
-Atom\\
-VSCode
+For the purposing of coding the following two Integrated Development Environments were used:
+\begin{enumerate}
+\item Atom. It can be downloaded from: \url{https://atom.io/}
+\item Visual Studio Code, also known as VSCode. It can be downloaded from here: \url{https://code.visualstudio.com/}
+\end{enumerate}
 \subsection{Database Management Tools}
-TablePlus
+For the purposes of database management, TablePlus was the main software we utilised. It was used to see if our \texttt{Django} models and cryptographic schemes were correctly implemented. TablePlus can be downloaded from: \url{https://tableplus.com/}
+\subsection{Hosting}
+Due to a number of contraints we landed up running our project locally. The server was \texttt{localhost} and the port number was \texttt{8000}. Therefore the link where we ran our project was:
+\url{http://127.0.0.1:8000}
 \section{Prerequisites}
 \subsection{Project and Package Initialisation}
 \subsection{Settings and Admin}
