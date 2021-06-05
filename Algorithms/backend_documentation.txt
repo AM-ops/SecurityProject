@@ -1,6 +1,15 @@
 ================
+Cipher Background
+================
+Transposition:
+A transposition cipher is a means of encryption by which the plaintext characters are shifted according to a regular system. As such, the order of the plaintext is simply reordered. There are also several different methods of doing this, such as the Columnar Transposition which reads the columns in order of the key's character values (i.e. a=1, b=2,...). Others involve some form of distortion by adding some spaces or other characters to further mix up the plain text. 
 
+Vigenere:
+This cipher was first described by Giovan Bellaso in 1553 but later misattributed to Blaise de Vigenere, hence its name. This cipher works by making use of a series of interwoven Caesar ciphers - which when joined create a Vigenere Table - based on the letters of a given keyword. As such, it is a polyalphabetic substitution cipher. It was still "indecipherable" almost three centuries after its' development.
 
+Vernam:
+The Vernam cipher is a One-Time pad cipher meaning that the key used is only ever used once and never again. It makes use of the positional values of each letter in the alphabet and adds the plaintext to the key with these and then applies a modulo 26 calculation on the resulting values. The key used in this has certain stipulations, the first that it must be truly random (one that computers are somewhat able to do), it must also be as long as the given plain text and then ever be used again.
+================
 Documentation
 ================
 File Handling Methods
@@ -109,8 +118,8 @@ https://docs.python.org/3/tutorial/inputoutput.html
 =============
 Reflection
 =============
-It is interesting how common the digital applications of the Vernam and Vigenere ciphers can be as the both make use of ascii decimal values to arrive at a encrypted/decrypted value while only differing on the key used and its' application.
+While developing the Vigenere and Vernam algorithms, it was very interesting how similar they are to each other in their encryption and decryption methods digitally as, through our implementation, both made use of the ASCII values of characters.
 
-Although python is able to handle .txt and .csv files very well; its file handling capabilities of others is definitely lacking. In the development of this program we found that the file data read from a png,jpg,mp3,etc.. file have no encoding type as with most strings being utf-8. This makes it extremely difficult to work on these contents and as such only mostly numerical algorithms are effective.
+While Python has great success when handling text-based files (.txt, .csv, etc.) it was not as effective when it came to other formats such as .png and .mp3 and as such imposed certain restrictions on how our algorithms could function - the most notable being that we could not alter the data type of the contents of a file to anything other than in integer byte value as it would seem that the encoding used on these is not one of the common ones like UTF-8 or UTF-32 and as such forced us to implement two "modes" for each algorithm - one for text and one for any file (.txt included)
 
-While writing the vernam/vigenere ciphers and testing them against a png, it was interesting to see on one occasion the encrypted file was not corrupted as usual although it did display a heavily warped image of the origional. This is interesting as it would suggest for a means of image processing at a very low level using the individual bytes - and as such wouldn't be very easy to implement but definitely interesting.
+There was also an instance when testing the Vernam cipher against a .png file where the encrypted file was actually not "corrupted" (as all bytes in a file are used this included file-type specifications) and appeared as an image of a few white stripes (nothing like the original). This is interesting as the OTP generated in that instance must have had a sequence that allowed the file-type specification to still be readable and as such the file could be opened. This does pose an interesting question that if a key could be generated with certain values, could the encrypted file or text mirror the original due to the modulo calculations? While our Vernam implementation shouldn't lead to this as the OTP is diffused within the encrypted contents - it could happen with the Vigenere Cipher as the user must stipulate the key both times and it is not stored. It is very very highly unlikely to happen on file encryption due to the sheer amount of data that this would need to happen to, but for the text encryption, it could (although still very unlikely).

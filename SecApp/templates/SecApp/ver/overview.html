@@ -5,6 +5,19 @@
 
 {% block bodyblock %}
 <div class="container">
+<div class="container m-5 p-3" style="text-align: center;">
+        <h2>Vernam Cipher Background</h2>
+    </div>
+
+    <div class="container">
+    <p>The Vernam cipher is a One-Time pad cipher meaning that the key used 
+    is only ever used once and never again. It makes use of the positional values 
+    of each letter in the alphabet and adds the plaintext to the key with these 
+    and then applies a modulo 26 calculation on the resulting values. The key used in
+    this has certain stipulations, the first that it must be truly random (one that 
+    computers are somewhat able to do), it must also be as long as the given plain text and then ever be used again.
+    </p>
+    </div>
     <div class="container m-5 p-3" style="text-align: center;">
         <h2>Our Vernam Algorithm Implementation</h2>
     </div>
