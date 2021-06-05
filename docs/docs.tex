@@ -10,6 +10,8 @@
 %\usepackage{amsmath}
 %\usepackage[normalem]{ulem}
 \usepackage{booktabs}
+\usepackage{dirtree}
+\usepackage{hologo}
 %\usepackage{array}
 %\usepackage{tikz}
 %\usepackage{parskip}
@@ -246,17 +248,17 @@ fontsize=\footnotesize,
 conda install -n <name_of_virtual_environment> pip
 \end{minted}
 \section{Frameworks and other packages}
-\subsection{Django}
+\subsection{Django}\label{dj}
 The primary framework used for development in this project was \texttt{Django}. This is a python based Web framework. The documentation for it can be found here:\\
 \url{https://docs.djangoproject.com/en/3.2/}
-\subsection{Bootstrap}
+\subsection{Bootstrap}\label{bs}
 Bootstrap is Cascading Style Sheets (CSS) Framework which allows for simple, elegant, and responsive Graphical User Interfaces to be developed for the Web. The documentation for it can be found here:\\
 \url{https://getbootstrap.com/docs/5.0/getting-started/introduction/}\\\\
 For a more seamless integration of Bootstrap with the \texttt{Django} Framework an additional package called \texttt{django-crispy-forms} was also installed. Its documentation ca be found here:\\
 \url{https://django-crispy-forms.readthedocs.io/en/latest/}
 \subsection{Miscellaneous}
-For typesetting of this documentation, \LaTeX was utilised. Additionally, a \LaTeX package called \texttt{minted} was used to typeset code in this documentation. Its homepage is located at:\\
-\url{https://www.ctan.org/pkg/minted}\\\\
+For typesetting of this documentation, \hologo{LaTeX} was utilised. Additionally, a \hologo{LaTeX} package called \texttt{minted} was used to typeset code in this documentation. Its homepage is located at: \url{https://www.ctan.org/pkg/minted}\\
+To typeset directory structures in a tree-like manner the \hologo{LaTeX} package \texttt{dirtree} was used. Its homepage can be found at: \url{https://ctan.org/pkg/dirtree}\\\\
 Lastly, to typeset code within the HTML pages of our project the JavaScript library called \texttt{Rainbow} was implemented. The GitHub link for that is located at:\\
 \url{https://github.com/ccampbell/rainbow}
 \chapter{Programming of artefact}
@@ -272,10 +274,111 @@ For the purposing of coding the following two Integrated Development Environment
 \subsection{Database Management Tools}
 For the purposes of database management, TablePlus was the main software we utilised. It was used to see if our \texttt{Django} models and cryptographic schemes were correctly implemented. TablePlus can be downloaded from: \url{https://tableplus.com/}
 \subsection{Hosting}
-Due to a number of contraints we landed up running our project locally. The server was \texttt{localhost} and the port number was \texttt{8000}. Therefore the link where we ran our project was:
+Due to a number of constraints we landed up running our project locally. The server was \texttt{localhost} and the port number was \texttt{8000}. Therefore the link where we ran our project was:
 \url{http://127.0.0.1:8000}
 \section{Prerequisites}
 \subsection{Project and Package Initialisation}
+\textsl{From here on we will refer to the working directory as the directory where the} \texttt{manage.py} \textsl{file is located. This file is created when the project is setup}\\\\
+Before our \texttt{Django} project can be created we have to install all the packages mentioned above in Section \ref{dj} and \ref{bs}. A text file called \texttt{requirements.txt} was created which lists the 3 packages we need to install as shown below:
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Text}
+django
+django-crispy-forms
+bootstrap4
+\end{minted}
+Thereafter the following command was run in the working directory.
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+pip install -r requirements.txt
+\end{minted}
+To start a \texttt{Django} project called \texttt{SecProj} the following command was run:
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+django-admin startproject SecProj
+\end{minted}
+Your directory should look like the following:
+\dirtree{%
+.1 /.
+.2 manage.py.
+.2 SecProj.
+.3 \_\_init\_\_.py.
+.3 settings.py.
+.3 urls.py.
+.3 asgi.py.
+.3 wsgi.py.
+}
+\phantom{a}\\
+\noindent To verify that your \texttt{Django} project is working run the following command in your working directory:
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+python manage.py runserver
+\end{minted}
+You should see the following if you open the link: \url{http://127.0.0.1:8000}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/home}
+\caption{Default Homepage of a new Django Project}
+\end{figure}
+\noindent Now that your \texttt{Django} project is up and running it is time to create a \texttt{Django} 'App' within this project. This App is where we implemented our cryptographic schemes and the bulk of our project. We called our App \texttt{SecApp} and the command to run in your working directory is as follows:
+\begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+]
+{Shell}
+python manage.py startapp SecApp
+\end{minted}
+Your directory should now look like the following:
+\dirtree{%
+.1 /.
+.2 manage.py.
+.2 SecProj.
+.3 \_\_init\_\_.py.
+.3 settings.py.
+.3 urls.py.
+.3 asgi.py.
+.3 wsgi.py.
+.2 SecApp.
+.3 \_\_init\_\_.py.
+.3 admin.py.
+.3 apps.py.
+.3 migrations.
+.4 \_\_init\_\_.py.
+.3 models.py.
+.3 tests.py.
+.3 views.py.
+}
 \subsection{Settings and Admin}
 \chapter{User manual}
 \chapter{Reflection}
