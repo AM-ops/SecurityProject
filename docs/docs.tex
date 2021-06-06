@@ -451,19 +451,28 @@ python manage.py createsuperuser
 \end{minted}
 The link for \texttt{Django} admininstration for the project is: \url{http://127.0.0.1:8000/admin}
 \section{Models}
-A workflow diagram is given below:\\\\
-%\begin{tikzpicture}[node distance=2cm]
-%\node (start) [startstop] {Start};
+A workflow diagram of how the backend and frontend were created is given below:\\\\
+\begin{center}
+\begin{tikzpicture}[node distance=2cm]
+\node (start) [startstop] {Beginning};
 %\node (in1) [io, below of=start] {Input};
-%\node (pro1) [process, below of=in1] {Process 1};
+\node (pro1) [process, below of=start] {Create \texttt{Models}};
+\node (pro2) [process, below of=pro1] {Create \texttt{ModelForms}};
+\node (pro3) [process, below of=pro2] {Create \texttt{Views}};
+\node (pro4) [process, below of=pro3] {Create \texttt{Templates}};
+\node (pro5) [process, below of=pro4] {Add urls};
 %\node (dec1) [decision, below of=pro1, yshift=-0.5cm] {Decision 1};
 %
 %\node (pro2a) [process, below of=dec1, yshift=-0.5cm] {Process 2a};
 %\node (pro2b) [process, right of=dec1, xshift=2cm] {Process 2b};
 %\node (out1) [io, below of=pro2a] {Output};
-%\node (stop) [startstop, below of=out1] {Stop};
-%\draw [arrow] (start) -- (in1);
-%\draw [arrow] (in1) -- (pro1);
+\node (stop) [startstop, below of=pro5] {Ending, and Testing};
+\draw [arrow] (start) -- (pro1);
+\draw [arrow] (pro1) -- (pro2);
+\draw [arrow] (pro2) -- (pro3);
+\draw [arrow] (pro3) -- (pro4);
+\draw [arrow] (pro4) -- (pro5);
+\draw [arrow] (pro5) -- (stop);
 %\draw [arrow] (pro1) -- (dec1);
 %\draw [arrow] (dec1) -- (pro2a);
 %\draw [arrow] (dec1) -- (pro2b);
@@ -472,9 +481,14 @@ A workflow diagram is given below:\\\\
 %\draw [arrow] (pro2b) |- (pro1);
 %\draw [arrow] (pro2a) -- (out1);
 %\draw [arrow] (out1) -- (stop);
-%\end{tikzpicture}
+\end{tikzpicture}
+\end{center}
 The process of creating models was identical for all that were created, therefore for the purpose of brevity we will only look at one text, and one file example. The example will be of the models implemented for the Vigenère cryptographic scheme.\\\\
-The model for Text Encryption and Decryption with the Vigenère cipher looks exactly the same with a few small differences. Below is the code.
+The model for Text Encryption and Decryption with the Vigenère cipher looks exactly the same with a few small differences. Below is the code for Text Encryption and Decryption. This code was added to the \texttt{models.py} file.\\\\
+A few notes to mention before we move to the code:
+\begin{itemize}
+\item The \texttt{TextField} was a \texttt{ModelField} used due to its capability to store large strings of textual data. It is synonymous with \texttt{nvarchar} or \texttt{varchar} in other DBMSs.
+\end{itemize}
 \begin{minted}
 [
 frame=lines,
@@ -519,7 +533,11 @@ class VigTextDec(models.Model):
     def get_absolute_url(self):
         return reverse('SecApp:VigTextDec_detail', kwargs={'pk':self.pk})
 \end{minted}
-The model for File Encryption and Decryption with the Vigenère cipher looks exactly the same with a few small differences. Below is the code.
+The model for File Encryption and Decryption with the Vigenère cipher looks exactly the same with a few small differences. Below is the code.\\\\
+A few notes to mention before we move to the code:
+\begin{itemize}
+\item The \texttt{FileField} was a \texttt{ModelField} used due to its capability to store \textbf{metadata} about a file. So in other words its format, url, and path of where the file is located. \item It stores references that point to a certain object after it is uploaded and saved under the \texttt{/media/} directory.
+\end{itemize}
 \begin{minted}
 [
 frame=lines,
@@ -543,7 +561,6 @@ class VigFileEnc(models.Model):
         super().save(*args, **kwargs)
         self.enc()
         super().save(*args, **kwargs)
-
     def enc(self, *args, **kwargs):
         THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
         new_path = os.path.join(THIS_FOLDER, 'media')
@@ -551,7 +568,6 @@ class VigFileEnc(models.Model):
         plainData = algorithms.fileToByteString(pt)
         cipherData = algorithms.Vigenere_FILE_Encryption(plainData,self.key)
         self.ciphertext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_vig_enc.{0}'.format(self.ext)))
-
     def get_absolute_url(self):
         return reverse('SecApp:VigFileEnc_detail', kwargs={'pk':self.pk})
 
@@ -567,7 +583,6 @@ class VigFileDec(models.Model):
         super().save(*args, **kwargs)
         self.dec()
         super().save(*args, **kwargs)
-
     def dec(self, *args, **kwargs):
         THIS_FOLDER = os.path.dirname(os.path.abspath(settings.MEDIA_ROOT))
         new_path = os.path.join(THIS_FOLDER, 'media')
@@ -575,11 +590,10 @@ class VigFileDec(models.Model):
         plainData = algorithms.fileToByteString(pt)
         cipherData = algorithms.Vigenere_FILE_Decryption(plainData,self.key)
         self.plaintext = algorithms.byteStringToFile(cipherData, os.path.join(new_path, 'newfile_vig_dec.{0}'.format(self.ext)))
-
     def get_absolute_url(self):
         return reverse('SecApp:VigFileDec_detail', kwargs={'pk':self.pk})
 \end{minted}
-Once the \texttt{Models} are finalised we can create the \texttt{ModelForms}. Below is the snippet of code for the models shown above.
+Once the \texttt{Models} are finalised we can create the \texttt{ModelForms}. Below is the snippet of code for the \texttt{ModelForms} that use the \texttt{Models} shown above.
  \begin{minted}
 [
 frame=lines,
@@ -623,8 +637,9 @@ class VigTextDecModelForm(ModelForm):
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
 \end{minted}
+The \texttt{ModelForms} make it easier to implement a HTML form, thereby streamlining the process. Using \texttt{ModelForms} we can specify exactly what fields should be displayed on a form, which ones are mandatory to fill in, which ones are optional, as well as specify additional information to make the User Experience more pleasant for anyone that uses the program.
 \section{Views}
-Once the models and \texttt{ModelForms} are completed we can move onto the Views. The primary ones that are used are the \texttt{CreateView}, \texttt{DetailView}, and the \texttt{TemplateView}. These are all classes that inherit from the parent \texttt{GenericView}.\\\\
+Once the \texttt{Models} and \texttt{ModelForms} are completed we can move onto the Views. The primary ones that are used are the \texttt{CreateView}, \texttt{DetailView}, and the \texttt{TemplateView}. These are all classes that inherit from the parent \texttt{GenericView}.\\\\
 Once again we will look at the Vigenère cipher and the models created for it and how they are integrated with the \texttt{Views}. Below is the snippet of code for the \texttt{CreateView}.
  \begin{minted}
 [
@@ -677,7 +692,7 @@ Next we can create the \texttt{DetailView} for the same \texttt{Models} mentione
 [
 frame=lines,
 framesep=2mm,
-baselinestretch=1.2,
+baselinestretch=1,
 bgcolor=LightApricot,
 fontsize=\footnotesize,
 linenos,
@@ -705,12 +720,12 @@ class VigFileDecDetailView(LoginRequiredMixin,DetailView):
     template_name = 'SecApp/vig/vig_file_dec_detail.html'
 \end{minted}
 \section{Templates}
-We are almost complete with our implementation.
+We are almost complete with our implementation. We now have to create \texttt{Templates} that link up with the \texttt{Views} created above. Below is a snippet of code for Vigenère Text Encryption \texttt{View}
  \begin{minted}
 [
 frame=lines,
 framesep=2mm,
-baselinestretch=1.2,
+baselinestretch=1.1,
 bgcolor=LightApricot,
 fontsize=\footnotesize,
 linenos,
@@ -738,8 +753,48 @@ breaklines
   </div>
 </div>
 \end{minted}
+\section{URLs}
+Lastly, we have to add the URLs for the \texttt{Views} and \texttt{Templates} created above. The code is added to the \texttt{urls.py} file. For each \texttt{View} that was created a separate URL had to be added. Below is the snippet.
+ \begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+linenos,
+breaklines,
+]
+{Python}
+from django.conf.urls import url
+from . import views
+
+app_name = 'SecApp'
+
+urlpatterns = [
+url(r'^vig/$',views.VigOverviewPage.as_view(),name='vig_overview'),
+    url(r'^vig/text/create/enc$',views.VigTextEncCreate.as_view(),
+    name='vig_text_create_enc'),
+    url(r'^vig/text/create/dec$',views.VigTextDecCreate.as_view(),
+    name='vig_text_create_dec'),
+    url(r'^vig/file/create/enc$',views.VigFileEncCreate.as_view(),
+    name='vig_file_create_enc'),
+    url(r'^vig/file/create/dec$',views.VigFileDecCreate.as_view(),
+    name='vig_file_create_dec'),
+    url(r'vig/text/enc/(?P<pk>\d+)/$',views.VigTextEncDetailView.as_view(),
+     name='VigTextEnc_detail'),
+    url(r'vig/text/dec/(?P<pk>\d+)/$',views.VigTextDecDetailView.as_view(),
+     name='VigTextDec_detail'),
+    url(r'vig/file/enc/(?P<pk>\d+)/$',views.VigFileEncDetailView.as_view(),
+     name='VigFileEnc_detail'),
+    url(r'vig/file/dec/(?P<pk>\d+)/$',views.VigFileDecDetailView.as_view(),
+     name='VigFileDec_detail'),
+    ]
+    
+\end{minted}
 \chapter{User manual}
-\chapter{Reflection}
+\chapter{Closing remarks}
+\section{Reflection}
 Joshua Esterhuizen had the following to say:
 \begin{displayquote}
 While developing the Vigenère and Vernam algorithms, it was very interesting how similar they are to each other in their encryption and decryption methods digitally as, through our implementation, both made use of the ASCII values of characters.
@@ -748,6 +803,25 @@ While Python has great success when handling text-based files (.txt, .csv, etc.)
 \\
 There was also an instance when testing the Vernam cipher against a .png file where the encrypted file was actually not "corrupted" (as all bytes in a file are used this included file-type specifications) and appeared as an image of a few white stripes (nothing like the original). This is interesting as the OTP generated in that instance must have had a sequence that allowed the file-type specification to still be readable and as such the file could be opened. This does pose an interesting question that if a key could be generated with certain values, could the encrypted file or text mirror the original due to the modulo calculations? While our Vernam implementation shouldn't lead to this as the OTP is diffused within the encrypted contents - it could happen with the Vigenère Cipher as the user must stipulate the key both times and it is not stored. It is very very highly unlikely to happen on file encryption due to the sheer amount of data that this would need to happen to, but for the text encryption, it could (although still very unlikely).
 \end{displayquote}
+Affaan Muhammad had the following to say:
+\begin{displayquote}
+dflsdfjlsdfjlsfjlsfls
+\end{displayquote}
+\section{Work Consensus}
+Below is a table showing how the work was divided in this project amongst the 2 members.
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+\multicolumn{1}{c}{Affaan}   & \multicolumn{1}{c}{Joshua}         \\ \midrule
+Graphical User Interface     & Algorithms for ciphers             \\
+\texttt{Models}, \texttt{Views}, and \texttt{Templates} & File and Text Management methods            \\
+Testing                      & Testing                            \\
+Bug fixes                    & Bug fixes                          \\
+Video                        & Video                              \\
+Documentation                & Overview and Background of ciphers \\ \bottomrule
+\end{tabular}
+\end{table}
 \chapter{Sources}
 \url{https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html}\\
 \url{https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/}\\
