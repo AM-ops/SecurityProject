@@ -41,7 +41,135 @@
 \date{}
 \maketitle
 \tableofcontents{}
-
+\chapter{Cryptographic Schemes and Background}
+\section{Vigenère Cipher}
+This cipher was first described by Giovan Bellaso in 1553 but later misattributed to Blaise de Vigenère, hence its name. This cipher works by making use of a series of interwoven Caesar ciphers - which when joined create a Vigenère Table - based on the letters of a given keyword. As such, it is a polyalphabetic substitution cipher. It was still "indecipherable" almost three centuries after its development.
+\subsection{Our Implementation}
+Our Vigenère algorithm implementation makes use of:
+\begin{itemize}
+\item a function to extend the user given key to match the message or file content's length.
+\end{itemize}
+\subsection{The Algorithm Itself}
+Our Vigenère algorithm implementation works using calculations involving the ASCII values of the letters, and byte characters in a file's case, to apply the same effect of a Vigenère Table. The encryption adds these values within modulo26 for text (also adding 65 as discussed below) and modulo256 for files while the decryption subtracts these values. When it comes to the text "mode" of this algorithm, we have included a check to ensure that all characters that have the cipher applied are indeed letters. This is done by:
+\begin{itemize}
+\item Before the algorithm takes place, we apply the ".upper()" to the text string to keep all characters as capital letters,
+\item Setting an if statement that riggers if the ASCII value of a character is not within the capital letter values,
+\item Immediately append to the array that will be returned.
+\end{itemize}
+We could also do the same process above but with lowercase letters with ".lower()" if we so chose.
+\subsection{The Key Extender}
+As with the "normal" and our implementation of the Vigenère cipher algorithm, the user provided key mmust be repeated across the length of the message. This function does nothing if the key provided is the same length as the message. However, if the key is shorter, it it incrementally added onto itself character-by-character until the right length is met.
+In the event that the message is shorter than the key, this function returns the original key. Due to the way the encryption and decryption algorithms function, this will not matter as the loops within them are tied to message length and not key length.
+\subsection{Logic Behind Using the Sums Taken in Modulo26 of ASCII Values in Place of a Vigenère Table}
+Using the image below it is clear with the two letters 'M' and 'H', the letter 'T' is produced through the Vigenère cipher. The ASCII values for these are as follows:\\
+'M' = 77\\
+'H' = 72\\
+'T' = 84\\\\
+Now if we take 77 + 72, we get 149.\\
+Taking 149(mod26) we get 19\\
+Adding 65 and 19 we get 84 (As 65 is the value of 'A' so that we arrive back at the ASCII values of capital letters)\\
+We can then see that the value we get from these calculations, is the same as the ASCII value of 'T' =$>$ and with the chr() we can take this number and return the letter 'T'.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{./pics/vig}
+\caption{Vigenère table}
+\end{figure}
+The above image of the Vigenère table was taken from a website authored by \textsl{Dr. C.-K. Shene a professor in the Department of Computer Science at Michigan Technological University} (circa. 2014) available at \url{https://pages.mtu.edu/~shene/NSF-4/Tutorial/VIG/Vig-Base.html}
+\section{Vernam Cipher}
+The Vernam cipher is a One-Time pad cipher meaning that the key used is only ever used once and never again. It makes use of the positional values of each letter in the alphabet and adds the plaintext to the key with these and then applies a modulo 26 calculation on the resulting values. The key used in this has certain stipulations, the first that it must be truly random (one that computers are somewhat able to do), it must also be as long as the given plain text and then ever be used again.
+\subsection{Our Implementation}
+Our Vernam algorithm implementation makes use of:
+\begin{itemize}
+\item a randomly generated key for use as the One-Time Pad.
+\end{itemize}
+\subsection{Algorithm Itself}
+Our implementation of the Vernam cipher is practically the same as it is described. We generate a random key to use only once per encryption, add it numerically to the plaintext or file contents as integers (which represent the bytes) and then decrypt it by subtracting that key again. The text "mode" works as it should, adding the numerical values of the letters' position in the alphabet with those of the random key. However, due to the restrictions placed upon working with file contents while using Python (being unable to change the data type from integer representations of bytes) we simply add the random key as with the text (the exception being that the file's is generated differently as described below) instead of using the XOR function some digital implementations make use of.
+\subsection{The One-Time Pad Random Key Generator}
+Using python's random library, a key the length of whatever input the algorithm recieves is generated by using;
+\begin{itemize}
+\item the \texttt{randrange(65,91)} function, or all capital letter's ASCII values, for text encryption as a string, and
+\item the \texttt{randrange(0,256)} function, or all possible character's ASCII values, for file encryption as an array of integers.
+\end{itemize}
+That is to say, it is a key that can consist of some/all 255 ASCII characters in numerical form. This key is then used in a further calculation on the once encrypted data as follows:
+\\
+For text encryption we make use of the following formula:\\
+\texttt{EncryptedValue = (textASCII\_Value[ i ] + randomKeyASCII\_Value[ i ]\% 26) + 65}\\
+(65 is the ASCII value of A)\\
+And with file encryption we made use of the following formula:\\
+\texttt{EncryptedValue = fileDataASCII\_Value[ i ] + randomKeyASCII\_Value[ i ] \% 256}\\
+(Taken under modulo256 as character ASCII values are limited to this range)
+\section{Transposition Cipher}
+A transposition cipher is a means of encryption by which the plaintext characters are shifted according to a regular system. As such, the order of the plaintext is simply reordered. There are also several different methods of doing this, such as the Columnar Transposition which reads the columns in order of the key's character values (i.e. a=1, b=2, and so on). Others involve some form of distortion by adding some spaces or other characters to further mix up the plain text.
+\subsection{Our Implementation}
+Our Transposition algorithm implementation makes use of:
+\begin{itemize}
+\item a key checking function, and
+\item a function to convert a string, or array depending on the "mode", into a matrix.
+\end{itemize}
+\subsection{The Algorithm Itself}
+Before explaining the "formatting" methods used in this implementation of the transposition cipher, we explain which transposition method we made use of. The transposition cipher used is the "\textsl{rotate 90 degrees}" variant where the encrypted data is created by reading from a matrix depth-wise through all the columns. To achieve this digitally without any "out of index errors", the matrix is also padded with additional values depending on the "mode" during the matrix formulation function.
+\subsection{The Key Check}
+As some transposition models make use of an integer value while others a string we decided that ours would accept both:
+\begin{itemize}
+\item In the event an integer is entered, it would stipulate he number of columns within the matrix.
+\item If a string of characters/letters/special characters/etc. is entered then this function would return the length of that string as the stipulation for the amount of columns in the matrix.
+\end{itemize}
+As our front-end makes use of Django's text fields to capture user input, we iterate over each element in the user given key and if all items are found to have the ASCII values of numbers, it is changed from a numerical string to an integer to be used.
+(It should be noted that this function is also used in our "homebrew" algorithm due to the need to have an integer-based key)
+\subsection{The Matrix Formulation}
+We have two versions of this function for use:
+\begin{itemize}
+\item One for text encryption and decryption, and
+\item One for file encryption and decryption.
+\end{itemize}
+The reason for this is due to the padding used in this implementation as we cannot pad a files contents with anything other than bytes and as such:
+\begin{itemize}
+\item For text we pad with the ("") character; essentially nothing but adding to the size of the matrix as ("") will have no affect on a string regardless of where it is padded.
+\item For files we pad the remaining spaces with the last byte accessed - repeating it until the required size is reached.
+\end{itemize}
+Regardless of which is used, they both return a matrix (or technically a list of lists).
+\subsection{Removal of padding}
+Whereas the text version of this transposition essentially pads nothing, the file version pads actual values which must be removed during decryption to return usable "plaintext" file data. To accomplish this we had to store the original file length for use. From a back-end perspective, and when encrypting and then decrypting one file a a time, it was enough to store this length as another variable. However, as a user can encrypt multiple files before decrypting one, we needed a way to tie the original file content's length to its' encrypted version. We accomplished this by sorting the length as an additional array within the encrypted file through the following logic:
+\begin{itemize}
+\item As the length of a files contents' will almost definitely be greater than 255 (the maximum ASCII value) for all but the simplest files, we need to store this integer value as separate bytes for each digit in the number to not exceed this value.
+\item We then took the length of this number (as it is impossible for it to reach 255 digits long as the largest number a computer can store, $2^31 - 1$, is only ten digits long).
+\item Therefore, the first byte of the encrypted file contents is the number of times the array of bytes must be popped to be solely "ciphertext" again, still with padding, and to acquire the original length.
+\item Finally, after the content has been decrypted, we pop() from the back equal to the difference of the matrices full length and the original length to remove all padding bytes.
+\end{itemize}
+\section{J\&A Homebrew Algorithm}
+Our "Homebrew" algorithm makes use of:
+\begin{itemize}
+\item a mathematical calculation to increase the confusion aspect of the cipher text, and
+\item a randomly generated key of all possible unicode/ASCII values to further enhance the confusion and diffusion aspects.
+\end{itemize}
+\subsection{The Mathematics}
+With the use of a python mathematics library, such as the simple "math" module or NumPy, this calculation can be quite complex provided the programmer's mathematical knowledge is sufficient. One limitation this algorithm has is that, for files, no multiplication or division can be used as it changes the byte content between a float and an integer which causes it to loose its encoding type. Another is that no mathematical functions that returns multiple values can be used - such as a square root function returning both the positive and negative roots. The integer key a user provides is what is used in these calculations.
+\\
+As such, for the text encryption we made use of the following formula:\\
+\texttt{encryptedValue = (key x plainTextASCII\_Value[ i ]) - key}\\
+And with the aforementioned restrictions on file encryption we made use of the following formula:\\
+\texttt{encryptedValue = (key x byteASCII\_Value[ i ]) - key}\\
+The decryption of this aspect of the algorithm just takes the inverse of these mathematical calculations.
+\subsection{Secondary Random Key}
+Using python's random library, a key the length of whatever input the algorithm receives is generated by using;
+\begin{itemize}
+\item the \texttt{randrange(65,91)} function, or all capital letter's ASCII values, for text encryption, and
+\item the randrange(32,256) function, or all possible character's ASCII values, for file encryption.
+\end{itemize}
+That is to say, it is a key that can consist of some/all 255 ASCII characters in numerical form. This key is then used in a further calculation on the once encrypted data as follows:\\\\
+For text encryption we make use of the following formula:\\
+\texttt{againEncryptedValue = encryptedValue[ i ] + randomKeyASCII\_Value[ i ]}\\
+And with the aforementioned restrictions on file encryption we made use of the following formula:\\
+\texttt{againEncryptedValue = (encryptedValue[ i ] + randomKeyASCII\_Value[ i ]) \% 256}\\
+(Taken under modulo256 as character ASCII values are limited to this range)\\
+The decryption of this aspect of the algorithm again just takes the inverse of these mathematical calculations.
+\subsection{The Diffusion Aspect}
+As the aforementioned random key is needed for decryption, it is actually included in the cipher text or encrypted file in a manner to increase diffusion of the encrypted data. As with the mathematical calculations, it depends on how a programmer wishes to diffuse the key. With this implementation, we have added it as the first half of the encrypted data - which is not too secure now that it's been disclosed :p
+In the decryption of the encrypted file or cipher text:
+\begin{itemize}
+\item The first half is read as the key, and
+\item The remaining contents as the encrypted file data or cipher text.
+\end{itemize}
 \chapter{Installation and setup}
 \section{Project files}
 The project files can be found on the following GitHub link:\\
@@ -797,6 +925,24 @@ url(r'^vig/$',views.VigOverviewPage.as_view(),name='vig_overview'),
      name='VigFileDec_detail'),
     ]
 \end{minted}
+\section{Migrations}
+To finally run the program we have to run a few commands. The first make our migrations, the second migrates those changes to our local SQLite database, and the last command runs our server locally.
+ \begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.1,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+linenos,
+breaklines
+]
+{Shell}
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+\end{minted}
+All these commands, and a few other commands were added to a \texttt{script.sh} file for Linux development and in a \texttt{script.bat} file for Windows development.
 \section{Algorithms, File and Text Management Methods}
 First we will display the code located in our \texttt{algorithms.py} file then we will discuss the methods in detail.
  \begin{minted}
@@ -1385,7 +1531,7 @@ Video                        & Video                              \\
 Documentation                & Overview and Background of ciphers \\ \bottomrule
 \end{tabular}
 \end{table}
-\chapter{Sources}
+\chapter{Sources and Acknowledgements}
 \url{https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html}\\
 \url{https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/}\\
 \url{https://docs.djangoproject.com/en/3.2/}\\

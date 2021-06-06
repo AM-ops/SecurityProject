@@ -32,7 +32,7 @@
                 <h4>The Algorithm Itself: </h4>
             <p>
                 Before explaining the "formatting" methods used in this implementation of the transposition cipher, we explain which transposition method we made use of. 
-                The transpoistion cipher used is the  "<i>rotate 90 degrees</i>" variant where the encryted data is created by reading from a matrix depth-wise through all the columns.
+                The transposition cipher used is the  "<i>rotate 90 degrees</i>" variant where the encrypted data is created by reading from a matrix depth-wise through all the columns.
                 To achieve this digitally without any "out of index errors", the matrix is also padded with additional values depending on the "mode" during the matrix formulation function.<br/>
             </p>
 
@@ -42,7 +42,7 @@
                 -In the event an integer is entered, it would stipulate he number of columns within the matrix. <br />
                 -If a string of characters/letters/special characters/etc. is entered then this function would return the length of that string as the stipulation for the amount of columns in the matrix.<br /><br />
                 As our front-end makes use of Django's text fields to capture user input, we iterate over each element in the user given key and if all items are found to have the ASCII values of numbers, it is changed from a numerical string to an integer to be used.<br/>
-                <i>(It should be noted that this function is also used in our "homebrew" algorithom due to the need to have an integer-based key)</i>
+                <i>(It should be noted that this function is also used in our "homebrew" algorithm due to the need to have an integer-based key)</i>
             </p>
 
             <h4>The Matrix Formulation: </h4>
@@ -51,7 +51,7 @@
                 -One for text encryption and decryption, and <br />
                 -One for file encryption and decryption.<br /><br />
                 The reason for this is due to the padding used in this implementation as we cannot pad a files contents with anything other than bytes and as such: <br/>
-                -For text we pad with the ("") character; essentially nothing but adding to the size of the matrix as ("") will have no affect on a string regardeless of where it is padded. <br/>
+                -For text we pad with the ("") character; essentially nothing but adding to the size of the matrix as ("") will have no affect on a string regardless of where it is padded. <br/>
                 -For files we pad the remaining spaces with the last byte accessed - repeating it until the required size is reached. <br/><br />
                 Regardless of which is used, they both return a matrix (or technically a list of lists).
             </p>
@@ -59,13 +59,13 @@
 
             <h4>Removal of padding: </h4>
             <p>
-                Whereas the text version of this transposition essentially pads nothing, the file version pads actual values which must be removed during decryption to return useable "plaintext" file data.
-                To accomplish this we had to store the origional file length for use. From a back-end perspective, and when encrypting and then decrypting one file a a time, it was enough to store this length as another variable.
-                However, as a user can encrypt multiple files before decrypting one, we needed a way to tie the origional file content's length to its' encrypted version. We accomplished this by soring the length as an additional array within the encrypted file through the following logic: <br /><br />
-                ->As the length of a files contents' will almost definitely be greater than 255 (the maximum ASCII value) for all but the simplist files, we need to store this integer value as seperate bytes for each digit in the number to not exceed this value.<br /><br />
-                ->We then took the length of this number (as it is impossible for it to reach 255 digis long as the largest number a computer can store, 2^31 - 1, is only ten digits long).<br /><br />
-                ->Therefore, the first byte of the encrypted file contents is the number of times the array of bytes must be popped to be solely "ciphertext" again, still with padding, and to aquire the origional length.<br /><br />
-                ->Finally, after the content has been decrypted, we pop() from the back equal to the difference of the matrices full length and the origional length to remove all padding bytes.
+                Whereas the text version of this transposition essentially pads nothing, the file version pads actual values which must be removed during decryption to return usable "plaintext" file data.
+                To accomplish this we had to store the original file length for use. From a back-end perspective, and when encrypting and then decrypting one file a a time, it was enough to store this length as another variable.
+                However, as a user can encrypt multiple files before decrypting one, we needed a way to tie the original file content's length to its' encrypted version. We accomplished this by sorting the length as an additional array within the encrypted file through the following logic: <br /><br />
+                ->As the length of a files contents' will almost definitely be greater than 255 (the maximum ASCII value) for all but the simplest files, we need to store this integer value as separate bytes for each digit in the number to not exceed this value.<br /><br />
+                ->We then took the length of this number (as it is impossible for it to reach 255 digits long as the largest number a computer can store, 2^31 - 1, is only ten digits long).<br /><br />
+                ->Therefore, the first byte of the encrypted file contents is the number of times the array of bytes must be popped to be solely "ciphertext" again, still with padding, and to acquire the original length.<br /><br />
+                ->Finally, after the content has been decrypted, we pop() from the back equal to the difference of the matrices full length and the original length to remove all padding bytes.
             </p>
         </div>
 

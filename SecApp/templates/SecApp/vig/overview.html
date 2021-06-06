@@ -20,7 +20,7 @@
     to Blaise de Vigen&egrave;re, hence its name. This cipher works by making use of a series of
     interwoven Caesar ciphers - which when joined create a Vigen&egrave;re Table - based on the
     letters of a given keyword. As such, it is a polyalphabetic substitution cipher. It was
-    still "indecipherable" almost three centuries after its' development.
+    still "indecipherable" almost three centuries after its development.
     </p>
     </div>
     <div class="container m-5 p-3" style="text-align: center;">
@@ -38,21 +38,21 @@
                 Our Vigen&egrave;re algorithm implementation works using calculations involving the ASCII values of the letters, and byte characters in a file's case, to apply the same effect of a
                 Vigen&egrave;re Table. The encryption adds these values within modulo26 for text (also adding 65 as discussed below) and modulo256 for files while the decryption subtracts these values.
                 When it comes to the text "mode" of this algorithm, we have included a check to ensure that all characters that have the cipher applied are indeed letters. This is done by: <br/>
-                -Before th algortithm takes place, we apply the ".upper()" to the text string to keep all chracters as capital letters,<br />
+                -Before th algorithm takes place, we apply the ".upper()" to the text string to keep all characters as capital letters,<br />
                 -Setting an if statement that riggers if the ASCII value of a character is not within the capital letter values, <br/>
-                -Immediately append ta to he array that will be returned. <br /><br />
-                Wecould also do the same process above but with lower ase letters with ".lower()" if we so chose.
+                -Immediately append to the array that will be returned. <br /><br />
+                We could also do the same process above but with lower case letters with ".lower()" if we so chose.
 
                 <br /><br />
             </p>
 
             <h4>The Key Extender: </h4>
             <p>
-                As with the "normal" and our implementation of the Vigen&egrave;re cipher algorithm, the user provided key mmust be repeated across the length of the message.
+                As with the "normal" and our implementation of the Vigen&egrave;re cipher algorithm, the user provided key must be repeated across the length of the message.
                 This function does nothing if the key provided is the same length as the message. However, if the key is shorter, it it incrementally added onto itself
                 character-by-character until the right length is met. <br/>
-                In the event that the message is shorter than the key, this function returns the origional key. Due to the way the encryption and decryption
-                algortithms function, this will not matter as the loops within them are tied to message length and not key lenght.<br/><br />
+                In the event that the message is shorter than the key, this function returns the original key. Due to the way the encryption and decryption
+                algorithms function, this will not matter as the loops within them are tied to message length and not key length.<br/><br />
             </p>
 
             <h4> The Logic Behind Using the Sums Taken in Modulo26 of ASCII Values in Place of a Vigen&egrave;re Table: </h4>
@@ -90,9 +90,9 @@ addRow = []
 </pre>
             </div>
                 <div class="container m-5 p-3" style="text-align: left;">
-                    <h4> Aknowledgement: </h4>
+                    <h4> Acknowledgement: </h4>
                     <p>
-                        The above image of the Vigen&egrave;re table was taken from a websie authored by <i>
+                        The above image of the Vigen&egrave;re table was taken from a website authored by <i>
                             Dr. C.-K. Shene a
                             professor in the Department of Computer Science at Michigan Technological University
                         </i> (circa. 2014) available at https://pages.mtu.edu/~shene/NSF-4/Tutorial/VIG/Vig-Base.html
