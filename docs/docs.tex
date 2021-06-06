@@ -32,7 +32,7 @@
 \begin{document}
 \tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=red!30]
 \tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
-\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, text width=4cm, draw=black, fill=orange!30]
 \tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 \linespread{1.25}
@@ -457,6 +457,8 @@ A workflow diagram of how the backend and frontend were created is given below:\
 \node (start) [startstop] {Beginning};
 %\node (in1) [io, below of=start] {Input};
 \node (pro1) [process, below of=start] {Create \texttt{Models}};
+\node (pro6) [process, left of=pro1, xshift=-4cm] {Create Algorithms};
+\node (pro7) [process, right of=pro1, xshift=4cm] {Create File and Text Management methods};
 \node (pro2) [process, below of=pro1] {Create \texttt{ModelForms}};
 \node (pro3) [process, below of=pro2] {Create \texttt{Views}};
 \node (pro4) [process, below of=pro3] {Create \texttt{Templates}};
@@ -467,8 +469,12 @@ A workflow diagram of how the backend and frontend were created is given below:\
 %\node (pro2b) [process, right of=dec1, xshift=2cm] {Process 2b};
 %\node (out1) [io, below of=pro2a] {Output};
 \node (stop) [startstop, below of=pro5] {Ending, and Testing};
+\draw [arrow] (start) -| (pro6);
+\draw [arrow] (start) -| (pro7);
 \draw [arrow] (start) -- (pro1);
 \draw [arrow] (pro1) -- (pro2);
+\draw [arrow] (pro6) -- (pro1);
+\draw [arrow] (pro7) -- (pro1);
 \draw [arrow] (pro2) -- (pro3);
 \draw [arrow] (pro3) -- (pro4);
 \draw [arrow] (pro4) -- (pro5);
@@ -790,9 +796,563 @@ url(r'^vig/$',views.VigOverviewPage.as_view(),name='vig_overview'),
     url(r'vig/file/dec/(?P<pk>\d+)/$',views.VigFileDecDetailView.as_view(),
      name='VigFileDec_detail'),
     ]
-    
 \end{minted}
+\section{Algorithms, File and Text Management Methods}
+First we will display the code located in our \texttt{algorithms.py} file then we will discuss the methods in detail.
+ \begin{minted}
+[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+bgcolor=LightApricot,
+fontsize=\footnotesize,
+linenos,
+breaklines,
+]
+{Python}
+#Cryptography Project for ITRI615
+# J&A's Cryptography Project
+import math
+import random as r
+
+#Formatting files
+#for any type of file :D
+def fileToByteString(file):
+    byteStream =[]
+    f = open(file, 'rb')
+    fileData = f.read()
+    fileData = bytearray(fileData)
+
+    for item in fileData:
+        byteStream.append(item)
+
+    f.close()
+    return byteStream
+
+def byteStringToFile(byteStream,file):
+    pathStr = str(file)
+    f = open(file, 'wb')
+    byteStream = bytearray(byteStream)
+    f.write(byteStream)
+    f.close()
+    return pathStr
+
+#Transposition
+def keyCheck(key):
+    check = True
+    for item in key:
+        if(not(ord(item) >= 48 and ord(item) <= 57)):
+            check = False
+    if(check):
+        return int(key)
+    else:
+        return len(key)
+
+#String to Matrix function
+def StrToMatrix_TEXT(text,key):
+    matrix = []
+    row = []
+    count = 0
+    length = len(text)
+    for item in text:
+        row.append(item)
+        count = count + 1
+        length = length - 1
+        if(count == key):
+            matrix.append(row)
+            row = []
+            count = 0
+        elif(length == 0):
+            while(len(row)<key):
+                row.append("")
+            matrix.append(row)
+    return matrix
+
+def StrToMatrix_FILE(text,key):
+    matrix = []
+    row = []
+    count = 0
+    length = len(text)
+    for item in text:
+        row.append(item)
+        count += 1
+        length -= 1
+        if(count == key):
+            matrix.append(row)
+            row = []
+            count = 0
+        elif(length == 0):
+            while(len(row)<key):
+                row.append(item)
+            matrix.append(row)
+    return matrix
+
+#Text algoritms
+def Transposition_TEXT_Encryption(message, key):
+    key = keyCheck(key)
+    matrix = StrToMatrix_TEXT(message, key)
+    encryptedMessage = ""
+    for j in range(0,key):
+        for item in matrix:
+            strList = str(item.pop(0))
+            encryptedMessage = encryptedMessage+strList
+    return encryptedMessage
+
+def Transposition_TEXT_Decryption(encryptedMessage, key):
+    key = keyCheck(key)
+    numberColumns = math.ceil(len(encryptedMessage) / key)
+    numberRows = key
+    numberBlanks = (numberColumns * numberRows) - len(encryptedMessage)
+    decryptedMessage = ['']*numberColumns
+    col,row = 0,0
+
+    for item in encryptedMessage:
+        decryptedMessage[col] += item
+        col += 1
+        if (col == numberColumns) or 
+        (col == numberColumns - 1 and row >= numberRows - numberBlanks):
+            col = 0
+            row += 1
+    return ''.join(decryptedMessage)
+
+def Transposition_FILE_Encryption(message, key):
+    key = keyCheck(key)
+    matrix = StrToMatrix_FILE(message, key)
+    encryptedMessage = []
+    origLength = str(len(message))
+    lenLen = len(origLength)
+    encryptedMessage.append(lenLen)
+    for i in range(0,lenLen):
+        encryptedMessage.append(ord(origLength[i]))
+
+
+    for j in range(0,key):
+        for item in matrix:
+            strList = item.pop(0)
+            encryptedMessage.append(strList)
+    return encryptedMessage
+
+def Transposition_FILE_Decryption(message,key):
+    key = keyCheck(key)
+
+    lenLen = message.pop(0)
+    origLengthARR = []
+    for i in range(0,lenLen):
+        strList = message.pop(0)
+        origLengthARR.append(str(chr(strList)))
+    origLengthSTR = ''.join(origLengthARR)
+    origLength = int(origLengthSTR)
+
+    numberColumns = math.ceil(len(message) / key)
+    numberRows = key
+    numberBlanks = (numberColumns * numberRows) - origLength
+    matrix = StrToMatrix_FILE(message, numberColumns)
+    decryptedMessageARR = []
+
+    for j in range(0,numberColumns):
+        for item in matrix:
+            strList = item.pop(0)
+            decryptedMessageARR.append(strList)
+
+    for i in range(0,numberBlanks):
+        decryptedMessageARR.pop(-1)
+
+    returnMessage =[]
+    for item in decryptedMessageARR:
+        returnMessage.append(int(item))
+
+    returnMessage = bytearray(returnMessage)
+
+    return returnMessage
+
+#Vignere
+
+#Fixes key length to match size of message
+def extendKeyLength(messageLength,key):
+    keyLength = len(key)
+    newKey = list(key)
+    if messageLength == keyLength:
+        return(key)
+
+    else:
+        for i in range(0,(messageLength - keyLength)):
+            newKey.append(key[i % keyLength])
+        return ("".join(newKey)).upper()
+
+#Text algorithms
+def Vigenere_TEXT_Encryption(message, key):
+    message = message.upper()
+    messageLength = len(message)
+    encryptedMessage = []
+    key = extendKeyLength(messageLength, key)
+    for i in range(0,messageLength):
+        if ord(message[i]) < 65 or ord(message[i]) > 90:
+            encryptedMessage.append(message[i])
+        else:
+            newEncrypted = ord(message[i]) + ord(key[i])
+            newEncrypted = newEncrypted % 26
+            newEncrypted += ord('A') #gets ascii values back to "letters area"
+            encryptedMessage.append(chr(newEncrypted))
+
+    return "".join(encryptedMessage)
+
+def Vigenere_TEXT_Decryption(encryptedMessage, key):
+    decryptedMessage = []
+    messageLength = len(encryptedMessage)
+    key = extendKeyLength(messageLength, key)
+    for i in range(0,messageLength):
+        if ord(encryptedMessage[i]) < 65 or ord(encryptedMessage[i]) > 90:
+            decryptedMessage.append(encryptedMessage[i])
+        else:
+            newDecrypted = (ord(encryptedMessage[i]) - ord(key[i])) % 26
+            newDecrypted += ord('A')
+            decryptedMessage.append(chr(newDecrypted))
+
+    return "".join(decryptedMessage)
+
+#File algortitms
+def Vigenere_FILE_Encryption(message, key):
+    messageLength = len(message)
+    encryptedMessage = []
+    key = extendKeyLength(messageLength, key)
+    for i in range(0,messageLength):
+            newEncrypted = ((message[i]) + ord(key[i])) % 256
+            encryptedMessage.append(newEncrypted)
+
+    return encryptedMessage
+
+def Vigenere_FILE_Decryption(message, key):
+    messageLength = len(message)
+    decryptedMessage = []
+    key = extendKeyLength(messageLength, key)
+    for i in range(0,messageLength):
+        newDecrypted = (message[i] - ord(key[i])) % 256
+        decryptedMessage.append(newDecrypted)
+
+    return decryptedMessage
+
+#Vernam
+#Key generators
+def vernam_Key_Generator(messageLength):
+    key = []
+    for i in range(0,messageLength):
+        char = chr(r.randrange(65,91))
+        key.append(char)
+    return ("".join(key)).upper()
+
+def vernam_Key_Generator_FILE(messageLength):
+    key = []
+    for i in range(0,messageLength):
+        char = chr(r.randrange(0,256))
+        key.append(ord(char))
+    return key
+
+#Text algorithms
+def Vernam_TEXT_Encryption(message):
+    messageStrip = message.replace(" ","")
+    messageStrip = messageStrip.upper()
+    messageLength = len(messageStrip)
+    key = vernam_Key_Generator(messageLength)
+    encryptedMessage = "" + key
+    encryptedMessage = list(encryptedMessage)
+    for i in range(0,messageLength):
+        newEncrypted = (ord(messageStrip[i]) + ord(key[i])) % 26
+        newEncrypted += 65
+        encryptedMessage.append(chr(newEncrypted))
+    return "".join(encryptedMessage)
+
+def Vernam_TEXT_Decryption(message):
+    messageLength = int(len(message)/2)
+    key = []
+    baseMessage = []
+    decryptedMessage = []
+
+    for i in range(0,messageLength):
+        key.append(message[i])
+        baseMessage.append(message[(i+messageLength)])
+
+    for j in range(0,messageLength):
+        newDecrypted = (ord(baseMessage[j]) - ord(key[j])) % 26
+        newDecrypted += 65
+        decryptedMessage.append(chr(newDecrypted))
+
+    return "".join(decryptedMessage)
+
+#File algorithms
+def Vernam_FILE_Encryption(message):
+    messageLength = len(message)
+    key = vernam_Key_Generator_FILE(messageLength)
+    baseMessage = []
+    encryptedMessage = []
+    for j in key:
+        encryptedMessage.append(j)
+    for i in range(0,messageLength):
+        newEncrypted = (message[i] + key[i]) % 256
+        baseMessage.append(newEncrypted)
+
+
+    encryptedMessage = [key,baseMessage]
+    returnMessage = []
+    for item in encryptedMessage:
+        for thing in item:
+            returnMessage.append(thing)
+
+    return returnMessage
+
+def Vernam_FILE_Decryption(message):
+    messageLength = int(len(message)/2)
+    key = []
+    baseMessage = []
+    decryptedMessage = []
+
+    for i in range(0,messageLength):
+        key.append(message[i])
+        baseMessage.append(message[(i+messageLength)])
+
+    for j in range(0,messageLength):
+        newDecrypted = (baseMessage[j] - key[j]) % 256
+        decryptedMessage.append(newDecrypted)
+
+    return decryptedMessage
+
+#Own algorithm
+def own_TEXT_Encryption(message, key):
+    key = keyCheck(key)
+    messageLength = len(message)
+    numericEncryptedValues = []
+    for item in message:
+        numeric = ord((item))
+        mathPart = (((key*numeric)) - key)
+        numericEncryptedValues.append(mathPart)
+
+    randomKey = []
+    for i in range(0,messageLength):
+        num = r.randrange(32,256)
+        randomKey.append(chr(num))
+
+    encryptedMessage = []
+    for i in range(0,messageLength):
+        encryptedMessage.append(chr((numericEncryptedValues[i]+ord(randomKey[i]))))
+
+    addedKey = ''.join(randomKey)
+    strEncryptedMessage = ''.join(encryptedMessage)
+
+    return (addedKey+strEncryptedMessage)
+
+def own_TEXT_Decryption(message, key):
+    key = keyCheck(key)
+    messageLength = int(len(message)/2)
+    encryptedMessage = []
+    randomKey = []
+
+    for i in range(0,messageLength):
+        encryptedMessage.append(ord(message[i+messageLength]))
+        randomKey.append(ord(message[i]))
+
+    partA = []
+    for j in range(0,messageLength):
+        partA.append(chr((encryptedMessage[j]-randomKey[j])))
+
+    decryptedMessage = []
+    for item in partA:
+        numeric = ord(item)
+        unMathPart = ((numeric+key)/key)
+        decryptedMessage.append(chr(int(unMathPart)))
+
+    return ''.join(decryptedMessage)
+
+def own_FILE_Encryption(message, key):
+    key = keyCheck(key)
+    messageLength = len(message)
+    numericEncryptedValues = []
+    for item in message:
+        mathPart = (item - key)
+        numericEncryptedValues.append(mathPart)
+
+    randomKey = []
+    for i in range(0,messageLength):
+        num = r.randrange(0,256)
+        randomKey.append(num)
+
+    combined = []
+    for i in range(0,messageLength):
+        combined.append((numericEncryptedValues[i]+randomKey[i])%256)
+
+    encryptedMessage = [randomKey,combined]
+    returnMessage = []
+    for item in encryptedMessage:
+        for thing in item:
+            returnMessage.append(thing)
+
+    return returnMessage
+
+def own_FILE_Decryption(message, key):
+    key = keyCheck(key)
+    messageLength = int(len(message)/2)
+    encryptedMessage = []
+    randomKey = []
+
+    for i in range(0,messageLength):
+        encryptedMessage.append(message[i+messageLength])
+        randomKey.append(message[i])
+
+    partA = []
+    for j in range(0,messageLength):
+        partA.append((encryptedMessage[j]-randomKey[j]))
+
+    decryptedMessage = []
+    for item in partA:
+        unMathPart = (item+key)
+        decryptedMessage.append(unMathPart%256)
+
+    return decryptedMessage
+\end{minted}
+\texttt{fileToByteString()} Method\\
+This method takes in a file/file path and reads it in binary mode. This data is then converted to a bytes array such that it can be worked on by other functions.
+\\\\
+\texttt{byteStringToFile()} Method\\
+This function takes in an bytes array of decimal values  and writes them to the file/file path provided.\\\\
+\texttt{keyCheck(key)} Method\\
+This function takes the provided key and checks if it is a integer or string and if a string returns the length of it to use as a key.\\\\
+\texttt{StrToMatrix\_TEXT()} Method\\
+This function takes in a text string and a numerical key. The key is used to stipulate the number of desired columns in the matrix. The function then rearranges the string into the matrix and accordingly returns it. It also pads the last row if required.\\\\
+\texttt{Transposition\_TEXT\_Encryption()} Method\\
+This function takes in a string and a numerical key and passes them to \texttt{StrToMatrix\_TEXT()}. This function then applies a simple transposition cipher by reading the data from the matrix column wise.
+\\\\
+\texttt{Transposition\_TEXT\_Decryption()} Method\\
+This function takes in a string and a numerical key. The function then uses various mathematical principles to work out how to read the encrypted text back; it does this by essentially transposing the matrix again. As such, it compiles a matrix to accomplish this and then returns a string through the .join() function.
+\\\\
+\texttt{StrToMatrix\_FILE()} Method\\
+Works similar to \texttt{StrToMatrix\_TEXT()} with the exception of what is used as padding - a null byte transformed into an integer value; i.e. \texttt{ord("\textbackslash u0000")}.
+\\\\
+\texttt{Transposition\_FILE\_Encryption()} Method\\
+Works similar to \texttt{Transposition\_TEXT\_Encryption()} with the exception of returning a numerical array instead of a string as well as taking in a byte array in place of a string.
+\\\\
+\texttt{Transposition\_FILE\_Decryption()} Method\\
+Works similar to \texttt{Transposition\_TEXT\_Decryption()} with the exception of returning a numerical array instead of a string and removing the added padding as well as taking in a byte array in place of a string.
+\\\\
+\texttt{extendKeyLength()} Method\\
+This function takes the length of the string given and the key to be used and ensures the key matches the length and if not duplicates it until it does. There is no need for a shortening function due to how the Vigenere Algorithm uses.
+\\\\
+\texttt{Vigenere\_TEXT\_Encryption()} Method\\
+This function takes in a string and a key. It then converts the plaintext to uppercase letters. Instead of making use of a Vigenere Table - this function makes use of the numerical ASCII values of characters and adds them in modulo 26. It then adds the value of 65, or ord('A') to get all character values back to the range of letters and returns these as a string. It also includes a check to ignore any non-letter based characters as a Vigenere table is only alphabet letters.
+\\\\
+\texttt{Vigenere\_TEXT\_Decryption()} Method\\
+Works similar to the encryption but instead subtracts the values before adding 65.
+\\\\
+\texttt{Vigenere\_FILE\_Encryption()} Method\\
+Works as with Vigenere\_TEXT\_Encryption() but is applied within modulo 256 to encompass all possible characters as well as taking in a byte array in place of a string.
+\\\\
+\texttt{Vigenere\_FILE\_Decryption()} Method\\
+Works as with \texttt{Vigenere\_TEXT\_Decryption()} but is applied within modulo 256 to encompass all possible characters as well as taking in a byte array in place of a string.
+\\\\
+The method of adding and subtracting numerical ASCII values has been found by us to consistently produce the same results as using a Vigenere table and as such was used as it would decrease look-up and computational time - especially on larger files.
+\\\\
+\texttt{vernam\_Key\_Generator()} Method\\
+This function takes in the length of a message/string and produces a random string of characters (within the capital letter set) to be used in the encryption functions.
+\\\\
+\texttt{Vernam\_TEXT\_Encryption()} Method\\
+This function takes in a message/string to be encrypted and calls \texttt{vernam\_Key\_Generator()} to create a unique one-time key. The ascii values of the message and key are added within modulo 26. The function then adds the required value to have the characters to be letter characters again and returns this as a string. Due to the random key generation, the key is stored as part of the resulting encrypted text.
+\\\\
+\texttt{Vernam\_TEXT\_Decryption()} Method\\
+This function begins by separating the key from the encrypted text and then subtracts the values in modulo26, takes these values back to the range of letter characters and returns this as a string.
+\\\\
+\texttt{vernam\_Key\_Generator\_FILE()} Method\\
+This function works similar to \texttt{vernam\_Key\_Generator()} except it generates an array of numerical values (between 0 and 255) as a key.
+\\\\
+\texttt{Vernam\_FILE\_Encryption()} Method\\
+Works like \texttt{Vernam\_TEXT\_Encryption()} except it takes in a numerical array of byte values and is done within modulo256.
+\\\\
+\texttt{Vernam\_FILE\_Decryption()} Method\\
+Works like \texttt{Vernam\_TEXT\_Decryption()} except it takes in a numerical array of byte values and is done within modulo256.
+\\\\
+\texttt{own\_TEXT\_Encryption()} Method\\
+This function takes in a plaintext string and well as a integer key. The individual characters of the string are subjected to a mathematical calculation based on the provided key and added to an array. Afterwards, a randomly generated key of the same length is created consisting of values from 0 to 255 to be added to the array as well before being added to the array as well. A string result of these is then returned.
+\\\\
+\texttt{own\_TEXT\_Decryption()} Method\\
+This function takes in a ciphertext string and a key. The cipher text is split into the encrypted text and a random key used in its' generation. The encrypted text is covered to numerical ascii values and have the random-key's values subtracted from it before having the inverse of a mathematical calculation based on the value of the key argument. This result is then concatenated and returned.
+\\\\
+\texttt{own\_FILE\_Encryption()} Method\\
+Works very similar to \texttt{own\_TEXT\_Encryption()} except is takes in a byte array in place of a string and the values of the mathematical calculations are done in modulo256 to stay within the 0-255 byte limitations.
+\\\\
+\texttt{own\_FILE\_Decryption()} Method\\
+Works very similar to \texttt{own\_TEXT\_Decryption()} except is takes in a byte array in place of a string and the values of the mathematical calculations are done in modulo256 to stay within the 0-255 byte limitations.
 \chapter{User manual}
+\section{Homepage}
+The landing page for our site is located at \url{http://127.0.0.1:8000/} and look like the picture shown below:
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.35]{./pics/index}
+\caption{Our Homepage}
+\end{figure}
+\section{Login and Signup}
+To use the features of our site you have to create an account. This can be done by clicking on the Sign Up button on the navigation bar or by going to the link:\\ \url{http://127.0.0.1:8000/accounts/signup/}\\
+Some key features of our program include the process of password strength testing. This means if your password is weak you will receive feedback telling you to change it.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/signup}
+\caption{Our Sign Up page}
+\end{figure}
+\noindent If you are already a registered user you will be able to login. This can be done by clicking on the Log In button or going to the link:\\
+\url{http://127.0.0.1:8000/accounts/login/}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/login}
+\caption{Our Log In page}
+\end{figure}
+\section{Text Encryption \& Decryption}
+Once you are logged in you will be able to use the different facilities offered by our program. Our program offers Encryption \& Decryption of Text by using 4 different cryptographic schemes i.e. \texttt{Vernam}, \texttt{Vigenere}, \texttt{Transposition}, and our own \texttt{J\&A Homebrew}.\\
+To Encrypt text follow the following steps:
+\begin{enumerate}
+\item Click on drop-down list with the scheme you want to utilise.
+\item Select \textbf{Text Encryption} or \textbf{Text Decryption}.
+\item Fill in the form that pops us.
+\item Click on \textbf{Encrypt} or \textbf{Decrypt}
+\end{enumerate}
+Below is an example Screenshot of a Vigenere Text Encryption and Decryption Form.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/vigtextenc}
+\caption{Example of our Vigenere Text Encryption form}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/vigtextdec}
+\caption{Example of our Vigenere Text Decryption form}
+\end{figure}
+\section{File Encryption \& Decryption}
+Once you are logged in you will be able to use the different facilities offered by our program. Our program offers Encryption \& Decryption of Files by using 4 different cryptographic schemes i.e. \texttt{Vernam}, \texttt{Vigenere}, \texttt{Transposition}, and our own \texttt{J\&A Homebrew}.\\
+To Encrypt or Decrypt Files follow the following steps:
+\begin{enumerate}
+\item Click on drop-down list with the scheme you want to utilise.
+\item Select \textbf{File Encryption} or \textbf{File Decryption}.
+\item Fill in the form that pops us.
+\item Click on \textbf{Encrypt} or \textbf{Decrypt}
+\end{enumerate}
+Below is an example Screenshot of a Vigenere File Encryption and Decryption Form.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/vigfileenc}
+\caption{Example of our Vigenere Text Encryption form}
+\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/vigfiledec}
+\caption{Example of our Vigenere File Decryption form}
+\end{figure}
+\section{Documentation and Contact}
+Our documentation can be found at \url{http://127.0.0.1:8000/docs/} or by clicking on the Docs button on the navigation bar.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/docs}
+\caption{Our Documentation page}
+\end{figure}
+Our contact details can be found at \url{http://127.0.0.1:8000/contact/} or by clicking on the Contact Us button on the navigation bar.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{./pics/contact}
+\caption{Our Contact Us page}
+\end{figure}
 \chapter{Closing remarks}
 \section{Reflection}
 Joshua Esterhuizen had the following to say:
@@ -803,9 +1363,12 @@ While Python has great success when handling text-based files (.txt, .csv, etc.)
 \\
 There was also an instance when testing the Vernam cipher against a .png file where the encrypted file was actually not "corrupted" (as all bytes in a file are used this included file-type specifications) and appeared as an image of a few white stripes (nothing like the original). This is interesting as the OTP generated in that instance must have had a sequence that allowed the file-type specification to still be readable and as such the file could be opened. This does pose an interesting question that if a key could be generated with certain values, could the encrypted file or text mirror the original due to the modulo calculations? While our Vernam implementation shouldn't lead to this as the OTP is diffused within the encrypted contents - it could happen with the Vigenère Cipher as the user must stipulate the key both times and it is not stored. It is very very highly unlikely to happen on file encryption due to the sheer amount of data that this would need to happen to, but for the text encryption, it could (although still very unlikely).
 \end{displayquote}
+\pagebreak
 Affaan Muhammad had the following to say:
 \begin{displayquote}
-dflsdfjlsdfjlsfjlsfls
+Communication was key to collaboration and the success of our project. It gives a good indication of how things will be in the industry where team development is a norm. The communication channel had to remain open and honest throughout the entire process as problems couldn't be fixed on either the backend or the frontend if the understanding was not there. For security to be successful you have to have decent documentation as well as guidance for a user. Therefore we used that in mind to help make it easy for a user to use our program and also receive feedback on what they are doing.
+File Management seemed to be a bit tricky throughout the development process. Luckily we put our heads together and overcame the issues.
+Learning to use CI/CD techniques definitely helped us collaborate more easily and keep our work up to date.
 \end{displayquote}
 \section{Work Consensus}
 Below is a table showing how the work was divided in this project amongst the 2 members.
@@ -825,9 +1388,11 @@ Documentation                & Overview and Background of ciphers \\ \bottomrule
 \chapter{Sources}
 \url{https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html}\\
 \url{https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/}\\
-\url{https://docs.djangoproject.com/en/3.2/}
-\url{https://docs.python.org/3/library/math.html}
-\url{https://docs.python.org/3/library/random.html}
-\url{https://docs.python.org/3/c-api/list.html}
-\url{https://docs.python.org/3/tutorial/inputoutput.html}
+\url{https://docs.djangoproject.com/en/3.2/}\\
+\url{https://docs.python.org/3/library/math.html}\\
+\url{https://docs.python.org/3/library/random.html}\\
+\url{https://docs.python.org/3/c-api/list.html}\\
+\url{https://docs.python.org/3/tutorial/inputoutput.html}\\
+\url{https://youtu.be/h12g__mLboo}\\
+\url{https://youtu.be/T9Fe-WD5Bvw}\\
 \end{document}
