@@ -102,6 +102,10 @@ def Transposition_TEXT_Decryption(encryptedMessage, key):
             row += 1
     return ''.join(decryptedMessage)
 
+'''
+print(Transposition_TEXT_Encryption("The brown fox has eyes seeing an infinite amount of stars","5"))
+print(Transposition_TEXT_Decryption(Transposition_TEXT_Encryption("The brown fox has eyes seeing an infinite amount of stars","5"),"5"))
+'''
 def Transposition_FILE_Encryption(message, key):
     key = keyCheck(key)
     matrix = StrToMatrix_FILE(message, key)
@@ -336,7 +340,7 @@ def own_TEXT_Encryption(message, key):
 
     randomKey = []
     for i in range(0,messageLength):
-        num = r.randrange(0,256)
+        num = r.randrange(32,256)
         randomKey.append(chr(num))
 
     encryptedMessage = []
